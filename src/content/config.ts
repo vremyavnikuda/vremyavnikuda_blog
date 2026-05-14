@@ -10,6 +10,12 @@ const blog = defineCollection({
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
     lang: z.enum(['ja', 'en']).default('ja'),
+    source: z.enum(['local', 'twir']).default('local'),
+    sourceUrl: z.string().url().optional(),
+    externalId: z.string().optional(),
+    issueNumber: z.number().int().positive().optional(),
+    license: z.string().optional(),
+    importMode: z.enum(['mirror', 'linkpost']).optional(),
   }),
 });
 

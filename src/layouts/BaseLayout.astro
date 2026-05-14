@@ -8,6 +8,7 @@ interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  canonicalUrl?: string;
   noHeader?: boolean;
   noFooter?: boolean;
 }
@@ -19,11 +20,12 @@ const {
   title = t('site.title'),
   description = t('site.description'),
   ogImage = '/og-default.png',
+  canonicalUrl,
   noHeader = false,
   noFooter = false,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalURL = canonicalUrl ? new URL(canonicalUrl) : new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>

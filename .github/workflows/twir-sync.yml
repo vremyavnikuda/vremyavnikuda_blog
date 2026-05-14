@@ -1,0 +1,64 @@
+name: Sync This Week in Rust
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      bootstrap_count:
+        description: 'Bootstrap newest TWIR issues when no local TWIR posts exist'
+        required: false
+        default: '0'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync This Week in Rust posts
+        env:
+          BOOTSTRAP_COUNT: ${{ github.event.inputs.bootstrap_count || '0' }}
+        run: |
+          if [ "$BOOTSTRAP_COUNT" != "0" ]; then
+            npm run twir:sync -- --bootstrap="$BOOTSTRAP_COUNT"
+          else
+            npm run twir:sync
+          fi
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run Astro checks
+        run: npm run check
+
+      - name: Run build
+        run: npm run build
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: 'chore: sync This Week in Rust posts'
+          branch: 'automation/twir-sync'
+          delete-branch: true
+          title: 'chore: sync This Week in Rust posts'
+          body: |
+            ## Summary
+            - sync newly published This Week in Rust issues into the local Astro content collection
+            - keep imported posts rendered through the existing `/en/blog` layout
+            - validate the sync with tests, Astro checks, and a full build

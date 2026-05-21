@@ -53,6 +53,7 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
         with:
+          token: ${{ secrets.VREMYAVNIKUDABLOG }}
           commit-message: 'chore: sync This Week in Rust posts'
           branch: 'automation/twir-sync'
           delete-branch: true

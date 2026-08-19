@@ -514,6 +514,10 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
                   {hasNode('hyprview') &&
                     renderDiagramNode({ title: 'hyprview', variant: 'project', left: 600, top: 100, width: 100, height: 46 })}
 
+                  {hasNode('leetcode') && renderDiagramLine(500, 180, { width: 100 })}
+                  {hasNode('leetcode') &&
+                    renderDiagramNode({ title: 'leetcode', variant: 'project', left: 600, top: 160, width: 110, height: 46 })}
+
                   {hasNode('google') && hasNode('google-cloud-rust') && (
                     <>
                       {renderDiagramLine(460, 185, { width: 40 })}
@@ -785,10 +789,25 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
                           className="w-full px-3 py-2 text-left text-sm transition hover:border-primary-400/60"
                         >
                           <div className="flex items-center justify-between gap-3">
-                            <span className="font-mono text-cyan-100">v{entry.version}</span>
-                            <span className="text-xs" style={{ color: versionColor(entry.releaseStatus) }}>
-                              {versionLabel(entry.releaseStatus, lang)}
+                            <span className="font-mono text-cyan-100">
+                              {/^\d+(\.\d+)*$/.test(entry.version) ? `v${entry.version}` : entry.version}
                             </span>
+                            <div className="flex items-center gap-3">
+                              {entry.link && (
+                                <a
+                                  href={entry.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={(event) => event.stopPropagation()}
+                                  className="text-xs text-primary-300 hover:underline"
+                                >
+                                  PR ↗
+                                </a>
+                              )}
+                              <span className="text-xs" style={{ color: versionColor(entry.releaseStatus) }}>
+                                {versionLabel(entry.releaseStatus, lang)}
+                              </span>
+                            </div>
                           </div>
                         </button>
 

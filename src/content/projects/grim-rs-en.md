@@ -1,16 +1,16 @@
 ---
 title: "grim-rs"
-description: "A Rust-based utility and library for taking screenshots on Wayland compositors"
+description: "A Rust-based utility and library for taking screenshots on Wayland compositors and Windows"
 github: "https://github.com/vremyavnikuda/grim-rs"
 link: "https://crates.io/crates/grim-rs"
-tags: ["rust", "linux", "wayland"]
+tags: ["rust", "linux", "wayland", "windows"]
 featured: true
 lang: en
 projectType: "project"
 category: "projects"
 parentProject: "hyprshot-rs"
 status: "active"
-version: "0.1.6"
+version: "0.2.0"
 roadmap:
   - version: "0.1.0"
     releaseStatus: "release"
@@ -55,6 +55,34 @@ roadmap:
       - "Fixed: Incorrect color channels with wl_shm::Argb8888. Resolved red/blue channel swap in screenshots on setups where screencopy reports Argb8888 (e.g. AMD/Hyprland) by converting BGRA memory layout to crate-level RGBA"
       - "Changed: Unified shm format conversion. Centralized wl_shm -> RGBA byte conversion in a single internal helper and reused it across single-output and multi-output capture paths"
       - "Changed: Format handling parity. Aligned default format fallback behavior between single-output and multi-output capture paths"
+  - version: "0.1.7"
+    releaseStatus: "release"
+    items:
+      - "Fixed: Rotated output capture on vertical monitors"
+      - "Fixed: Cursor capture orientation on rotated outputs"
+      - "Changed: Multi-output capture flow improvements"
+      - "Changed: Tightened CI checks (strict clippy blocking)"
+  - version: "0.1.8"
+    releaseStatus: "release"
+    items:
+      - "Removed: PPM output format (save_ppm, to_ppm, write_ppm_to_stdout, -t ppm) from the public API"
+  - version: "0.1.9"
+    releaseStatus: "release"
+    items:
+      - "Added: ext-image-copy-capture-v1 backend (auto-detects Sway ≥ 2025, Hyprland, COSMIC)"
+      - "Added: Backend constructors Grim::new_ext() / Grim::new_wlr() and public Backend enum"
+      - "Added: pixel_format module (PixelFormat enum, fourcc_to_format(), convert_to_rgba())"
+      - "Changed: Box renamed to Region (breaking change, MIGRATION.md provided)"
+      - "Fixed: dmabuf frame delivery for zwlr_screencopy"
+  - version: "0.2.0"
+    releaseStatus: "release"
+    items:
+      - "Added: Windows backend via DXGI Desktop Duplication API with D3D11 hardware acceleration"
+      - "Added: Platform abstraction layer (static dispatch between Wayland and Windows)"
+      - "Added: DirectXError / ProtectedContent / NoGpuAdapter error variants"
+      - "Added: examples/windows_capture.rs sample"
+      - "Changed: Grim::new_ext() / Grim::new_wlr() return UnsupportedProtocol on Windows"
+      - "Changed: Wayland dependencies gated with cfg(target_os = \"linux\")"
 ---
 
-A Rust-based utility and library for taking screenshots on Wayland compositors. It has no external C dependencies, supports multi-monitor setups, output transformations (rotation and mirroring), region capture, high-quality image scaling (Triangle, CatmullRom, Lanczos3), and saving to PNG/JPEG/PPM formats. Available as a CLI tool (cargo install grim-rs) and as a crate for integrating into your own applications.
+A Rust-based utility and library for taking screenshots on Wayland compositors and Windows. It has no external C dependencies, supports multi-monitor setups, output transformations (rotation and mirroring), region capture, high-quality image scaling (Triangle, CatmullRom, Lanczos3), and saving to PNG/JPEG formats. Available as a CLI tool (cargo install grim-rs) and as a crate for integrating into your own applications.

@@ -20,7 +20,7 @@ export const GET: APIRoute = async ({ params }) => {
   return new Response(JSON.stringify({ projects }), {
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'public, max-age=31536000, immutable',
+      'Cache-Control': 'public, max-age=0, must-revalidate',
     },
   });
 };

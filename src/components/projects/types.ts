@@ -5,6 +5,7 @@ export type ProjectCategory = 'projects' | 'contributing';
 export interface ProjectRoadmapItem {
   version: string;
   releaseStatus: ReleaseStatus;
+  link?: string;
   items?: string[];
 }
 

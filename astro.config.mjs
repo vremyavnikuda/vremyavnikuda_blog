@@ -17,7 +17,7 @@ export default defineConfig({
     react(),
     sitemap(),
   ],
-  site: 'https://yourdomain.com',
+  site: 'https://vremyavnikuda.tech',
   i18n: {
     defaultLocale: 'ja',
     locales: ['ja', 'en'],

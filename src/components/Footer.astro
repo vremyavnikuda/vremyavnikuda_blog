@@ -2,6 +2,7 @@
 import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/utils';
 
 const currentYear = new Date().getFullYear();
+const blogStartYear = 2024;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
@@ -26,7 +27,7 @@ const t = useTranslations(lang);
         </a>
       </div>
       <p class="text-[var(--color-text-secondary)] text-sm">
-        © {currentYear} vremyavnikuda
+        © {blogStartYear}-{currentYear} vremyavnikuda
       </p>
     </div>
   </div>

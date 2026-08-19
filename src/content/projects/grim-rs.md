@@ -1,16 +1,16 @@
 ---
 title: "grim-rs"
-description: "Waylandコンポジター用のスクリーンショット撮影ユーティリティとライブラリ（Rust製）"
+description: "WaylandコンポジターとWindows用のスクリーンショット撮影ユーティリティとライブラリ（Rust製）"
 github: "https://github.com/vremyavnikuda/grim-rs"
 link: "https://crates.io/crates/grim-rs"
-tags: ["rust", "linux", "wayland"]
+tags: ["rust", "linux", "wayland", "windows"]
 featured: true
 lang: ja
 projectType: "project"
 category: "projects"
 parentProject: "hyprshot-rs"
 status: "active"
-version: "0.1.6"
+version: "0.2.0"
 roadmap:
   - version: "0.1.0"
     releaseStatus: "release"
@@ -55,6 +55,34 @@ roadmap:
       - "修正: wl_shm::Argb8888 での色チャンネル不一致を修正。screencopy が Argb8888 を返す環境（例: AMD/Hyprland）で発生していたスクリーンショットの赤/青チャンネル入れ替わりを、BGRAメモリレイアウトから crate 内部の RGBA へ変換することで解消"
       - "変更: shm フォーマット変換を統一。wl_shm -> RGBA のバイト変換を単一の内部ヘルパーに集約し、単一出力・複数出力の両キャプチャ経路で再利用"
       - "変更: フォーマット処理の整合性を改善。単一出力と複数出力のキャプチャ経路で、既定フォーマットのフォールバック挙動を一致させた"
+  - version: "0.1.7"
+    releaseStatus: "release"
+    items:
+      - "修正: 縦型モニターでの回転出力キャプチャのリージョン処理を修正"
+      - "修正: 回転出力でのカーソルキャプチャの向きを修正"
+      - "変更: マルチ出力キャプチャのフローを改善"
+      - "変更: CIチェックを強化（strict clippy をブロッキング化）"
+  - version: "0.1.8"
+    releaseStatus: "release"
+    items:
+      - "削除: PPM 出力形式（save_ppm / to_ppm / write_ppm_to_stdout / -t ppm）を公開APIから削除"
+  - version: "0.1.9"
+    releaseStatus: "release"
+    items:
+      - "追加: ext-image-copy-capture-v1 バックエンド（Sway ≥ 2025、Hyprland、COSMIC を自動検出）"
+      - "追加: バックエンド選択用コンストラクタ Grim::new_ext() / Grim::new_wlr() と公開 Backend 列挙型"
+      - "追加: pixel_format モジュール（PixelFormat 列挙型、fourcc_to_format()、convert_to_rgba()）"
+      - "変更: Box を Region にリネーム（破壊的変更、MIGRATION.md を提供）"
+      - "修正: zwlr_screencopy での dmabuf フレーム配信を処理"
+  - version: "0.2.0"
+    releaseStatus: "release"
+    items:
+      - "追加: Windows バックエンド（DXGI Desktop Duplication API、D3D11 ハードウェアアクセラレーション）"
+      - "追加: Platform 抽象レイヤー（Wayland / Windows の静的ディスパッチ）"
+      - "追加: DirectXError / ProtectedContent / NoGpuAdapter のエラーバリアント"
+      - "追加: examples/windows_capture.rs サンプル"
+      - "変更: Windows では Grim::new_ext() / Grim::new_wlr() が UnsupportedProtocol を返す"
+      - "変更: Wayland 関連依存を cfg(target_os = \"linux\") でゲート"
 ---
 
-Waylandコンポジター用のスクリーンショット撮影ユーティリティとライブラリ（Rust製）。外部のC依存関係がなく、マルチモニター設定、出力変換（回転とミラーリング）、領域キャプチャ、高品質な画像スケーリング（Triangle、CatmullRom、Lanczos3）、PNG/JPEG/PPM形式での保存をサポートしています。CLIツール（cargo install grim-rs）として、また独自のアプリケーションに統合するためのクレートとして利用可能です。
+WaylandコンポジターとWindows用のスクリーンショット撮影ユーティリティとライブラリ（Rust製）。外部のC依存関係がなく、マルチモニター設定、出力変換（回転とミラーリング）、領域キャプチャ、高品質な画像スケーリング（Triangle、CatmullRom、Lanczos3）、PNG/JPEG形式での保存をサポートしています。CLIツール（cargo install grim-rs）として、また独自のアプリケーションに統合するためのクレートとして利用可能です。

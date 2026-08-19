@@ -41,6 +41,7 @@ const projects = defineCollection({
     roadmap: z.array(z.object({
       version: z.string(),
       releaseStatus: z.enum(['release', 'dev', 'close']),
+      link: z.string().url().optional(),
       items: z.array(z.string()).optional(),
     })).optional(),
   }),

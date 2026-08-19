@@ -24,10 +24,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: 1. Type check
-        run: npm run check
-
-      - name: 2. Build verification
+      - name: Build verification (includes astro check)
         run: npm run build
 
       - name: 3. Check dist output

@@ -7,7 +7,6 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
-  ogImage?: string;
   canonicalUrl?: string;
   noHeader?: boolean;
   noFooter?: boolean;
@@ -19,7 +18,6 @@ const t = useTranslations(lang);
 const {
   title = t('site.title'),
   description = t('site.description'),
-  ogImage = '/og-default.png',
   canonicalUrl,
   noHeader = false,
   noFooter = false,
@@ -44,13 +42,6 @@ const canonicalURL = canonicalUrl ? new URL(canonicalUrl) : new URL(Astro.url.pa
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(ogImage, Astro.site)} />
-    
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(ogImage, Astro.site)} />
     
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>

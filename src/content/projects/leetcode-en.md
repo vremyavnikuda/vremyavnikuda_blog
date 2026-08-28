@@ -9,6 +9,46 @@ parentProject: "contributing"
 lang: en
 status: "active"
 roadmap:
+  - version: "No.3720"
+    releaseStatus: "release"
+    link: "https://github.com/doocs/leetcode/pull/5370"
+    items:
+      - "Lexicographically Smallest Permutation Greater Than Target — Rust solution (2026-08-28)"
+  - version: "No.3302"
+    releaseStatus: "release"
+    link: "https://github.com/doocs/leetcode/pull/5369"
+    items:
+      - "Find the Lexicographically Smallest Valid Sequence — Rust solution (2026-08-28)"
+  - version: "No.3348"
+    releaseStatus: "release"
+    link: "https://github.com/doocs/leetcode/pull/5368"
+    items:
+      - "Smallest Divisible Digit Product II — Rust solution (2026-08-28)"
+  - version: "No.3518"
+    releaseStatus: "release"
+    link: "https://github.com/doocs/leetcode/pull/5367"
+    items:
+      - "Smallest Palindromic Rearrangement II — Rust solution (2026-08-28)"
+  - version: "No.3513"
+    releaseStatus: "release"
+    link: "https://github.com/doocs/leetcode/pull/5366"
+    items:
+      - "Number of Unique XOR Triplets I — Rust solution (2026-08-28)"
+  - version: "No.3501"
+    releaseStatus: "release"
+    link: "https://github.com/doocs/leetcode/pull/5365"
+    items:
+      - "Maximize Active Section with Trade II — Rust solution (2026-08-28)"
+  - version: "No.3336"
+    releaseStatus: "release"
+    link: "https://github.com/doocs/leetcode/pull/5364"
+    items:
+      - "Find the Number of Subsequences With Equal GCD — Rust solution (2026-08-28)"
+  - version: "No.3499"
+    releaseStatus: "release"
+    link: "https://github.com/doocs/leetcode/pull/5363"
+    items:
+      - "Maximize Active Section with Trade I — Rust solution (2026-08-28)"
   - version: "No.1331"
     releaseStatus: "release"
     link: "https://github.com/doocs/leetcode/pull/5309"

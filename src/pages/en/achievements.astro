@@ -20,6 +20,10 @@ const description = 'My achievements and certificates';
   <div class="max-w-3xl mx-auto px-4 py-16">
     <h1 class="text-4xl font-bold text-primary-400 mb-8">{title}</h1>
     
+    {sortedAchievements.length === 0 && (
+      <p class="text-[var(--color-text-secondary)]">No achievements yet.</p>
+    )}
+
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {sortedAchievements.map((achievement, index) => (
         <div 
@@ -87,9 +91,16 @@ const description = 'My achievements and certificates';
     }
   </style>
 
-  <script is:inline type="application/json" id="achievements-data">
-    {JSON.stringify(sortedAchievements.map(({ data }) => data))}
-  </script>
+  <!-- is:inline leaves the script verbatim, so the expression was shipped as
+       literal text and JSON.parse threw, which killed the click handlers.
+       set:html injects the real payload; < keeps a stray </script> in the
+       data from ending the tag early. -->
+  <script
+    is:inline
+    type="application/json"
+    id="achievements-data"
+    set:html={JSON.stringify(sortedAchievements.map(({ data }) => data)).replace(/</g, '\u003c')}
+  />
   <script is:inline>
     const achievements = JSON.parse(document.getElementById('achievements-data')?.textContent ?? '[]');
     const modal = document.getElementById('achievement-modal');

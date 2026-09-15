@@ -3,9 +3,19 @@
 @tailwind utilities;
 
 @layer base {
+  /* Variable weight 200-700 in one file. local() first, so anyone who already
+     has Cascadia Code installed never downloads it.
+     ponytail: no italic file shipped - the browser synthesises oblique, and
+     italics only show up in <em> and blockquotes. Add CascadiaCodeItalic.woff2
+     (+159KB) if that ever looks wrong. */
   @font-face {
     font-family: 'Cascadia Code';
-    src: local('Cascadia Code'), local('CascadiaCode');
+    src:
+      local('Cascadia Code'),
+      local('CascadiaCode'),
+      url('/fonts/CascadiaCode.woff2') format('woff2');
+    font-weight: 200 700;
+    font-style: normal;
     font-display: swap;
   }
 

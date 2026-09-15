@@ -14,6 +14,7 @@ const detailsUrl = `/projects-data/${lang}.json`;
 
 <BaseLayout title={`${t('projects.title')} - vremyavnikuda`} description={t('projects.description')}>
   <div class="w-full px-2 py-4">
+    <h1 class="sr-only">{t('projects.title')}</h1>
     {projects.length === 0 ? (
       <p class="text-[var(--color-text-secondary)]">{t('projects.noProjects')}</p>
     ) : (

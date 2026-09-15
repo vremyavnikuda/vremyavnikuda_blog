@@ -6,8 +6,6 @@ draft: false
 lang: en
 ---
 
-# Rust 1.93.0: musl, allocators, and other winter release surprises
-
 Hello! Today, **January 22, 2026**, **Rust 1.93.0** was released, and I want to share my impressions of this release.
 
 You know how some updates look a bit boring at first glance - no loud new language features, no revolutionary syntax changes. But then you dig deeper and realize that a lot of interesting work is happening under the hood, especially if you work with embedded systems, static binaries, or your own allocators.

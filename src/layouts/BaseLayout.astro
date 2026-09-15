@@ -44,6 +44,12 @@ const canonicalURL = canonicalUrl ? new URL(canonicalUrl) : new URL(Astro.url.pa
     <meta property="og:description" content={description} />
     
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={t('site.title')}
+      href={lang === 'en' ? '/en/rss.xml' : '/rss.xml'}
+    />
   </head>
   <body>
     {!noHeader && <Header />}

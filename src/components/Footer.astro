@@ -19,6 +19,12 @@ const t = useTranslations(lang);
         >
           {t('footer.github')}
         </a>
+        <a
+          href={lang === 'en' ? '/en/rss.xml' : '/rss.xml'}
+          class="text-[var(--color-text-secondary)] hover:text-primary-400 transition-colors"
+        >
+          RSS
+        </a>
         <a 
           href={getLocalizedPath('/privacy', lang)}
           class="text-[var(--color-text-secondary)] hover:text-primary-400 transition-colors"

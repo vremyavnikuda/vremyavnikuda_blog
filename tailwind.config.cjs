@@ -7,11 +7,21 @@ module.exports = {
         sans: [
           'Cascadia Code',
           'Cascadia Mono',
+          // Japanese fallbacks, in the order global.css explains.
+          'BIZ UDGothic',
+          'Yu Gothic',
+          'Hiragino Kaku Gothic ProN',
+          'Noto Sans CJK JP',
           'monospace',
         ],
         mono: [
           'Cascadia Code',
           'Cascadia Mono',
+          // Japanese fallbacks, in the order global.css explains.
+          'BIZ UDGothic',
+          'Yu Gothic',
+          'Hiragino Kaku Gothic ProN',
+          'Noto Sans CJK JP',
           'monospace',
         ],
       },

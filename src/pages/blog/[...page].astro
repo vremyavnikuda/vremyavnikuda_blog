@@ -1,14 +1,23 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
+import type { GetStaticPaths, Page } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import { useTranslations, getLocalizedPath } from '../../i18n/utils';
 
-const lang = getLangFromUrl(Astro.url);
+// Replaces index.astro: page 1 stays at /blog/, the rest land on /blog/2/ etc.
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = (await getCollection('blog'))
+    .filter(post => !post.data.draft && post.data.lang === 'ja')
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  return paginate(posts, { pageSize: 20 });
+}) satisfies GetStaticPaths;
+
+type Props = { page: Page<CollectionEntry<'blog'>> };
+
+const { page } = Astro.props;
+const lang = 'ja';
 const t = useTranslations(lang);
-
-const allPosts = (await getCollection('blog'))
-  .filter(post => !post.data.draft && post.data.lang === lang)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <BaseLayout title={`${t('blog.title')} - vremyavnikuda`} description={t('blog.description')}>
@@ -20,11 +29,11 @@ const allPosts = (await getCollection('blog'))
       </p>
     </header>
 
-    {allPosts.length === 0 ? (
+    {page.data.length === 0 ? (
       <p class="text-[var(--color-text-secondary)]">{t('blog.noPosts')}</p>
     ) : (
       <div class="space-y-12">
-        {allPosts.map((post) => (
+        {page.data.map((post) => (
           <article class="group">
             <a href={getLocalizedPath(`/blog/${post.slug}`, lang)} class="block">
               <time class="text-sm text-[var(--color-text-secondary)]">
@@ -44,6 +53,18 @@ const allPosts = (await getCollection('blog'))
           </article>
         ))}
       </div>
+    )}
+
+    {page.lastPage > 1 && (
+      <nav class="mt-16 flex items-center justify-between border-t border-[var(--color-border)] pt-8">
+        {page.url.prev
+          ? <a href={page.url.prev} class="text-primary-400 hover:underline">← 新しい記事</a>
+          : <span />}
+        <span class="text-sm text-[var(--color-text-secondary)]">{page.currentPage} / {page.lastPage}</span>
+        {page.url.next
+          ? <a href={page.url.next} class="text-primary-400 hover:underline">古い記事 →</a>
+          : <span />}
+      </nav>
     )}
   </div>
 </BaseLayout>

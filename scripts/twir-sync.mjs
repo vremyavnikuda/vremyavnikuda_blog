@@ -156,6 +156,8 @@ function stripHtmlTags(html) {
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
     .replace(/<[^>]+>/g, ' ')
     .replace(/\s+/g, ' ')
+    .replace(/\s+([,.!?;:)\]])(?=\s|$)/g, '$1')
+    .replace(/([(\[])\s+/g, '$1')
     .trim();
 }
 
@@ -167,14 +169,39 @@ function issueDateFromIso(isoString) {
   return isoString.slice(0, 10);
 }
 
-function buildDescription(issue) {
-  const text = stripHtmlTags(issue.summaryHtml || issue.contentHtml || '');
+// Cuts on a word boundary; slicing at a fixed offset left things like "This i...".
+function clampText(text, max = 160) {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max - 3);
+  const space = cut.lastIndexOf(' ');
+  return `${(space > 40 ? cut.slice(0, space) : cut).trimEnd().replace(/[,;:]$/, '')}...`;
+}
 
-  if (!text) {
-    return 'Weekly Rust community roundup imported from This Week in Rust.';
-  }
+// Every issue opens with the same boilerplate paragraph, so a description taken
+// from the top was byte-identical across all of them - a wall of repeats in the
+// list and duplicate meta descriptions for search engines. The crate of the week
+// is the one short thing that differs every issue.
+export function crateOfTheWeek(contentHtml) {
+  const section = contentHtml.match(/<h2[^>]*id="crate-of-the-week"[\s\S]*?<\/h2>([\s\S]{0,600})/i)?.[1];
+  if (!section) return '';
 
-  return text.length <= 160 ? text : `${text.slice(0, 157).trimEnd()}...`;
+  // Drop the standing note that follows the blurb. Issues word it either way.
+  const blurb = stripHtmlTags(section).split(/\s*(?:Thanks to |Despite |Please submit )/)[0].trim();
+
+  // First sentence only, and only a period that ends a word - ".editorconfig"
+  // must not count. An issue with an empty blurb yields nothing and falls back.
+  return blurb.match(/^This week's crate is [\s\S]*?\.(?=\s|$)/)?.[0] ?? '';
+}
+
+export function buildDescription(issue) {
+  const crate = crateOfTheWeek(issue.contentHtml || '');
+
+  // No falling back to the issue text: its opening paragraph is the same every
+  // week, which is what produced 18 byte-identical descriptions. The numbered
+  // line is at least unique per issue.
+  return crate
+    ? clampText(crate)
+    : `This Week in Rust ${issue.issueNumber}: the weekly roundup of Rust project updates, calls for participation, and upcoming events.`;
 }
 
 function buildFrontmatter(issue, importMode) {
@@ -196,10 +223,12 @@ function buildFrontmatter(issue, importMode) {
   ].join('\n');
 }
 
-function normalizeImportedHtml(html) {
+export function normalizeImportedHtml(html) {
   return html
     .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<h1(\s[^>]*)?>/gi, '<h2$1>')
+    .replace(/<\/h1>/gi, '</h2>')
     .replace(/\r\n/g, '\n')
     .trim();
 }

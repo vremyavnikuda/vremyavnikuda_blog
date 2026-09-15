@@ -1,6 +1,6 @@
 ---
 title: "This Week in Rust 652"
-description: "Hello and welcome to another issue of This Week in Rust ! Rust is a programming language empowering everyone to build reliable and efficient software. This i..."
+description: "This week's crate is cargo-crap, a cargo subcommand to calculate the Change Risk Anti-Patterns metric for a crate."
 pubDate: 2026-05-20
 updatedDate: 2026-05-20
 draft: false
@@ -430,7 +430,7 @@ it mentioned here. Please remember to add a link to the event too.
 Email the <a href="mailto:community-team@rust-lang.org">Rust Community Team</a> for access.</p>
 <h2 id="jobs"><a class="toclink" href="#jobs">Jobs</a></h2>
 <p>Please see the latest <a href="https://www.reddit.com/r/rust/comments/1sobu1s/official_rrust_whos_hiring_thread_for_jobseekers/">Who's Hiring thread on r/rust</a></p>
-<h1 id="quote-of-the-week"><a class="toclink" href="#quote-of-the-week">Quote of the Week</a></h1>
+<h2 id="quote-of-the-week"><a class="toclink" href="#quote-of-the-week">Quote of the Week</a></h2>
 <blockquote>
 <p>Posts like this are useful for those of us who like to help, and who work on rustc to make it more helpful, by letting us learn about what kinds of mistakes people make.</p>
 </blockquote>

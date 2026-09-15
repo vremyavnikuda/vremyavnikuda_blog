@@ -1,6 +1,6 @@
 ---
 title: "This Week in Rust 651"
-description: "Hello and welcome to another issue of This Week in Rust ! Rust is a programming language empowering everyone to build reliable and efficient software. This i..."
+description: "This week's crate is cloakrs, a library and CLI tool for detecting and masking personally identifiable information."
 pubDate: 2026-05-13
 updatedDate: 2026-05-13
 draft: false
@@ -496,7 +496,7 @@ it mentioned here. Please remember to add a link to the event too.
 Email the <a href="mailto:community-team@rust-lang.org">Rust Community Team</a> for access.</p>
 <h2 id="jobs"><a class="toclink" href="#jobs">Jobs</a></h2>
 <p>Please see the latest <a href="https://www.reddit.com/r/rust/comments/1sobu1s/official_rrust_whos_hiring_thread_for_jobseekers/">Who's Hiring thread on r/rust</a></p>
-<h1 id="quote-of-the-week"><a class="toclink" href="#quote-of-the-week">Quote of the Week</a></h1>
+<h2 id="quote-of-the-week"><a class="toclink" href="#quote-of-the-week">Quote of the Week</a></h2>
 <blockquote>
 <p>Of the last 150 merged PRs to Bun, <strong>108 are memory-safety-adjacent</strong> — missed cleanup on an error path, use-after-free, uninitialized reads, out-of-bounds access, reentrancy. <strong>75 of those would not compile</strong> in a language with destructors, move semantics, and a borrow checker. One in three PRs we ship is "forgot to free something on an error path."</p>
 <p>Of the 108, ~88 are in Zig. The ~14 in C++ are mostly ref-cycles and GC-concurrency races — the residual class that survives any language. So the Zig→Rust delta is real: the Zig bugs are exactly the destructor/ownership-fixable kind, and the C++ side is already near the floor.</p>

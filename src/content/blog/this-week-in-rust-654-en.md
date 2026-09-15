@@ -1,6 +1,6 @@
 ---
 title: "This Week in Rust 654"
-description: "Hello and welcome to another issue of This Week in Rust ! Rust is a programming language empowering everyone to build reliable and efficient software. This i..."
+description: "This week's crate is remyx, a framework for building TUIs on top of Ratatui."
 pubDate: 2026-06-03
 updatedDate: 2026-06-03
 draft: false
@@ -471,7 +471,7 @@ it mentioned here. Please remember to add a link to the event too.
 Email the <a href="mailto:community-team@rust-lang.org">Rust Community Team</a> for access.</p>
 <h2 id="jobs"><a class="toclink" href="#jobs">Jobs</a></h2>
 <p>Please see the latest <a href="https://www.reddit.com/r/rust/comments/1ttbtf5/official_rrust_whos_hiring_thread_for_jobseekers/">Who's Hiring thread on r/rust</a></p>
-<h1 id="quote-of-the-week"><a class="toclink" href="#quote-of-the-week">Quote of the Week</a></h1>
+<h2 id="quote-of-the-week"><a class="toclink" href="#quote-of-the-week">Quote of the Week</a></h2>
 <blockquote>
 <p>If memory safety bugs were Waldo (Wally): finding them in C programs is a "Where's Waldo?" game, and Rust's <code>unsafe</code> simplifies it to "Is <em>this</em> Waldo?"</p>
 </blockquote>

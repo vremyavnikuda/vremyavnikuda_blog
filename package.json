@@ -13,7 +13,8 @@
     "check": "astro check",
     "twir:sync": "node ./scripts/twir-sync.mjs",
     "twir:sync:dry": "node ./scripts/twir-sync.mjs --dry-run",
-    "twir:bootstrap": "node ./scripts/twir-sync.mjs --bootstrap=3"
+    "twir:bootstrap": "node ./scripts/twir-sync.mjs --bootstrap=3",
+    "og": "node ./scripts/og.mjs"
   },
   "repository": {
     "type": "git",

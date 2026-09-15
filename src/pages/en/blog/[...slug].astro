@@ -24,6 +24,9 @@ const hasMath = post.body.includes('$');
   title={`${post.data.title} - vremyavnikuda`}
   description={post.data.description}
   canonicalUrl={post.data.sourceUrl}
+  ogType="article"
+  publishedTime={post.data.pubDate}
+  modifiedTime={post.data.updatedDate}
 >
   {hasMath && (
     <>

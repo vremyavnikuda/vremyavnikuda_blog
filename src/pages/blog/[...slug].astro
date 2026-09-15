@@ -26,6 +26,9 @@ const lang = 'ja';
 <BaseLayout 
   title={`${post.data.title} - vremyavnikuda`}
   description={post.data.description}
+  ogType="article"
+  publishedTime={post.data.pubDate}
+  modifiedTime={post.data.updatedDate}
 >
   {hasMath && (
     <>

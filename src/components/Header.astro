@@ -92,6 +92,14 @@ const currentPath = Astro.url.pathname;
       mobileMenu.classList.toggle('hidden');
     });
 
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+        mobileMenuButton.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.add('hidden');
+        mobileMenuButton.focus();
+      }
+    });
+
     document.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
       if (!mobileMenuButton.contains(target) && !mobileMenu.contains(target)) {

@@ -4,23 +4,26 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { useTranslations, getLocalizedPath } from '../../i18n/utils';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts
+  // Same order as the blog list, so newer/older match what the reader just scrolled.
+  const posts = (await getCollection('blog'))
     .filter(post => !post.data.draft && post.data.lang === 'ja')
-    .map((post) => ({
-      params: { slug: post.slug },
-      props: post,
-    }));
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  return posts.map((post, i) => ({
+    params: { slug: post.slug },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
 }
 
-type Props = CollectionEntry<'blog'>;
+type Post = CollectionEntry<'blog'>;
+type Props = { post: Post; newer?: Post; older?: Post };
 
-const post = Astro.props;
+const { post, newer, older } = Astro.props;
 const { Content } = await post.render();
 // ponytail: MathJax is ~1MB from a CDN; only a couple of posts have formulas
 const hasMath = post.body.includes('$');
 const t = useTranslations('ja');
 const lang = 'ja';
+const href = (p: Post) => getLocalizedPath(`/blog/${p.slug}`, lang);
 ---
 
 <BaseLayout 
@@ -72,6 +75,21 @@ const lang = 'ja';
       >
         {t('blog.backToBlog')}
       </a>
+
+    <nav class="mt-8 grid gap-4 sm:grid-cols-2">
+      {newer ? (
+        <a href={href(newer)} class="glass-panel rounded-xl px-4 py-3 hover:border-primary-400/60 transition-colors">
+          <span class="block text-xs text-[var(--color-text-secondary)]">新しい記事</span>
+          <span class="block text-primary-400">{newer.data.title}</span>
+        </a>
+      ) : <div class="hidden sm:block" />}
+      {older && (
+        <a href={href(older)} class="glass-panel rounded-xl px-4 py-3 text-right hover:border-primary-400/60 transition-colors sm:col-start-2">
+          <span class="block text-xs text-[var(--color-text-secondary)]">古い記事</span>
+          <span class="block text-primary-400">{older.data.title}</span>
+        </a>
+      )}
+    </nav>
     </footer>
   </article>
 </BaseLayout>

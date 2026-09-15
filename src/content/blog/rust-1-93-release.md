@@ -2,7 +2,6 @@
 title: "Rust 1.93.0: musl、アロケータ、そして冬のリリースのサプライズ"
 description: "Rust 1.93.0のポイントを整理: musl 1.2.5、アロケータのTLS、asm!内cfg、移行ポイント。"
 pubDate: 2026-01-22
-tags: ["rust", "release", "musl", "allocators", "asm"]
 draft: false
 lang: ja
 ---

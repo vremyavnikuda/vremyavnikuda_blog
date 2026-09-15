@@ -3,7 +3,6 @@ title: "hyprshot-rs"
 description: "A Rust utility for taking screenshots in Hyprland using your mouse"
 github: "https://github.com/shikoucore/hyprshot-rs"
 link: "https://crates.io/crates/hyprshot-rs"
-tags: ["rust", "linux", "hyprland", "wayland", "screenshot"]
 featured: true
 lang: en
 projectType: "project"

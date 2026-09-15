@@ -2,7 +2,6 @@
 title: "Cow in Rust: Smart Memory Management Without Unnecessary Copying"
 description: "An elegant solution to memory management that combines explicit control with ease of use"
 pubDate: 2025-01-21
-tags: ["rust", "memory-management", "performance", "cow"]
 draft: false
 lang: en
 ---

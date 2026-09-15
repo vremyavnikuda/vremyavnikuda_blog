@@ -2,7 +2,6 @@
 title: "数式を1つ見るためにWordを開く必要はある？MathViewerの紹介"
 description: "MathViewer は .mathml / .mml を手軽に表示するための小さな無料ツールです。v0.1.6 の現状、ライセンス、対応プラットフォーム、今後の展開をまとめました。"
 pubDate: 2026-04-11
-tags: ["mathviewer", "mathml", "mml", "shikou-core", "windows", "release"]
 draft: false
 lang: ja
 ---

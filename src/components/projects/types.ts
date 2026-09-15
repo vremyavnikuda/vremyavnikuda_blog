@@ -15,7 +15,6 @@ export interface Project {
   description: string;
   version?: string;
   status: string;
-  tags: string[];
   github?: string;
   link?: string;
   projectType?: ProjectType;

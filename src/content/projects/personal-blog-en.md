@@ -3,7 +3,6 @@ title: "Personal Blog"
 description: "Personal blog built with Astro, featuring Japanese and English support"
 github: "https://github.com/vremyavnikuda/vremyavnikuda_blog"
 link: "https://vremyavnikuda.com"
-tags: ["astro", "typescript", "blog", "web"]
 featured: true
 lang: en
 projectType: "project"

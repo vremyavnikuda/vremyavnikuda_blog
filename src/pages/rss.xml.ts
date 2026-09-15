@@ -17,7 +17,6 @@ export async function GET(context: APIContext) {
       description: post.data.description,
       pubDate: post.data.pubDate,
       link: `/blog/${post.slug}/`,
-      categories: post.data.tags,
     })),
     customData: '<language>ja</language>',
   });

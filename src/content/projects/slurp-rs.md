@@ -2,7 +2,6 @@
 title: "slurp-rs"
 description: "CLIと公開Rust APIの両方を備えたWayland領域選択ユーティリティ"
 github: "https://github.com/vremyavnikuda/slurp-rs"
-tags: ["rust", "linux", "wayland", "region-selection", "library"]
 featured: true
 lang: ja
 projectType: "project"

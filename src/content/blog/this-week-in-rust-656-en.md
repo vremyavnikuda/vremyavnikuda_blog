@@ -3,7 +3,6 @@ title: "This Week in Rust 656"
 description: "Hello and welcome to another issue of This Week in Rust ! Rust is a programming language empowering everyone to build reliable and efficient software. This i..."
 pubDate: 2026-06-17
 updatedDate: 2026-06-17
-tags: ["rust","twir","newsletter"]
 draft: false
 lang: en
 source: twir

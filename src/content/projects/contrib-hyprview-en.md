@@ -2,7 +2,6 @@
 title: "hyprview"
 description: "Window management tool for Hyprland"
 github: "https://github.com/hyprwm/hyprview"
-tags: ["rust", "hyprland", "wayland", "window-manager"]
 projectType: "contribution"
 category: "contributing"
 parentProject: "contributing"

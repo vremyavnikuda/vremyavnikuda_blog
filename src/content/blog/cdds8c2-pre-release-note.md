@@ -2,7 +2,6 @@
 title: "prototype algorithm 8C2: 新しいSATアルゴリズムのプレリリースノート"
 description: "prototype algorithm 8C2 のプレリリース概要: primal-dual 句重み更新、size/density-aware 動作、hard random 3-SAT での改善結果。"
 pubDate: 2026-03-09
-tags: ["sat", "max-sat", "algorithm", "research", "pre-release"]
 draft: false
 lang: ja
 ---

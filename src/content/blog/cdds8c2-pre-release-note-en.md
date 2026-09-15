@@ -2,7 +2,6 @@
 title: "prototype algorithm 8C2: Pre-release note on a new SAT algorithm"
 description: "A pre-release overview of prototype algorithm 8C2: primal-dual clause weighting, size/density-aware behavior, and measurable gains on hard random 3-SAT."
 pubDate: 2026-03-09
-tags: ["sat", "max-sat", "algorithm", "research", "pre-release"]
 draft: false
 lang: en
 ---

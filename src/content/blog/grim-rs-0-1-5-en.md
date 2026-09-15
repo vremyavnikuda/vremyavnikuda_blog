@@ -2,7 +2,6 @@
 title: "grim-rs v0.1.5 - Safer Buffers, Lower Peak Memory"
 description: "v0.1.5 hardens buffer sizing, reduces peak allocations during PNG/JPEG encoding, and updates dependencies and MSRV."
 pubDate: 2026-02-06
-tags: ["grim-rs", "wayland", "linux", "rust", "release"]
 draft: false
 lang: en
 ---

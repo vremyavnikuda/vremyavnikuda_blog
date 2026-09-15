@@ -2,7 +2,6 @@
 title: "rust-analyzer"
 description: "Language Server Protocol implementation for Rust"
 github: "https://github.com/rust-lang/rust-analyzer"
-tags: ["rust", "lsp", "ide", "compiler"]
 projectType: "contribution"
 category: "contributing"
 parentProject: "rust"

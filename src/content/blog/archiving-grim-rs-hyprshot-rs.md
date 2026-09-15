@@ -2,7 +2,6 @@
 title: "grim-rs と hyprshot-rs のアーカイブについて"
 description: "2つのプロジェクトをアーカイブに移しました。開発は終了しますが、プロジェクトは現在の状態のまま残ります。"
 pubDate: 2026-04-03
-tags: ["grim-rs", "hyprshot-rs", "open-source", "archive", "update"]
 draft: false
 lang: ja
 ---

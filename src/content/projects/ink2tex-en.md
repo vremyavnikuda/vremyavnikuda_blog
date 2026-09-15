@@ -2,7 +2,6 @@
 title: "ink2tex"
 description: "Tool to convert Inkscape SVG to LaTeX TikZ code"
 github: "https://github.com/vremyavnikuda/ink2tex"
-tags: ["rust", "svg", "latex", "tikz", "converter"]
 featured: false
 lang: en
 projectType: "project"

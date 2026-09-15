@@ -2,17 +2,6 @@
 title: "Go 1.26: What's New and Why It Matters to You"
 description: "A clear overview of Go 1.26: how the new garbage collector speeds up your app, an improved go fix, and practical examples of new capabilities."
 pubDate: 2026-02-11
-tags:
-  [
-    "go",
-    "release",
-    "runtime",
-    "gc",
-    "tooling",
-    "crypto",
-    "standard-library",
-    "platforms",
-  ]
 draft: false
 lang: en
 ---

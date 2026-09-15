@@ -3,7 +3,6 @@ title: "rust-fmt"
 description: "rustfmtを使用したRustコードのフォーマットを行うVS Code拡張機能"
 github: "https://github.com/shikoucore/rust-fmt"
 link: "https://marketplace.visualstudio.com/items?itemName=vremyavnikuda.rust-fmt"
-tags: ["rust", "typescript", "vscode", "formatter", "developer-tools"]
 featured: true
 lang: ja
 projectType: "project"

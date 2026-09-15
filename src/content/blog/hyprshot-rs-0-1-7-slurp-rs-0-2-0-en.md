@@ -2,7 +2,6 @@
 title: "hyprshot-rs v0.1.7 and slurp-rs v0.2.0 - Selector Integration and Public API"
 description: "A dual release update: hyprshot-rs v0.1.7 switches default selection to slurp-rs API, and slurp-rs v0.2.0 introduces a public Rust API."
 pubDate: 2026-02-21
-tags: ["hyprshot-rs", "slurp-rs", "wayland", "rust", "release"]
 draft: false
 lang: en
 ---

@@ -2,7 +2,6 @@
 title: "grim-rs v0.2.0 and rust-fmt v0.1.7 - Windows Support and Macro Parser Improvements"
 description: "grim-rs v0.2.0 adds a Windows backend (DXGI Desktop Duplication / D3D11), rust-fmt v0.1.7 improves the macro parser, and 4 solutions were added to LeetCode (doocs/leetcode)."
 pubDate: 2026-08-19
-tags: ["grim-rs", "rust-fmt", "leetcode", "rust", "release"]
 draft: false
 lang: en
 ---

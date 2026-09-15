@@ -2,7 +2,6 @@
 title: "grim-rs v0.1.5 - バッファ安全性とメモリピーク削減"
 description: "v0.1.5 ではバッファサイズ計算の安全化、PNG/JPEG エンコードのピークメモリ削減、依存関係と MSRV の更新を行いました。"
 pubDate: 2026-02-06
-tags: ["grim-rs", "wayland", "linux", "rust", "release"]
 draft: false
 lang: ja
 ---

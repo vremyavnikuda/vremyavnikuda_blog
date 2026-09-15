@@ -2,7 +2,6 @@
 title: "A Personal Update on Project Maintenance"
 description: "I’m rebalancing time between commercial work and open source, and moving some projects into maintenance mode."
 pubDate: 2026-03-05
-tags: ["open-source", "maintenance", "projects", "update"]
 draft: false
 lang: en
 ---

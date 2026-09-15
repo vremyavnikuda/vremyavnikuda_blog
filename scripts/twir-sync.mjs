@@ -9,7 +9,6 @@ const TWIR_FEED_URL = 'https://this-week-in-rust.org/atom.xml';
 const TWIR_ARCHIVE_URL = 'https://this-week-in-rust.org/blog/archives/index.html';
 const TWIR_SOURCE_NAME = 'twir';
 const TWIR_LICENSE = 'CC BY-SA 4.0';
-const DEFAULT_TAGS = ['rust', 'twir', 'newsletter'];
 
 function decodeEntity(entity) {
   const namedEntities = {
@@ -185,7 +184,6 @@ function buildFrontmatter(issue, importMode) {
     `description: ${escapeYamlString(buildDescription(issue))}`,
     `pubDate: ${issueDateFromIso(issue.published)}`,
     `updatedDate: ${issueDateFromIso(issue.updated || issue.published)}`,
-    `tags: ${JSON.stringify(DEFAULT_TAGS)}`,
     'draft: false',
     'lang: en',
     `source: ${TWIR_SOURCE_NAME}`,

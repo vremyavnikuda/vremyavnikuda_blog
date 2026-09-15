@@ -2,7 +2,6 @@
 title: "rust-fmt v0.1.8–v0.1.10 - Macro Formatter Safety Pipeline"
 description: "rust-fmt v0.1.8 reworks macro formatting around a token-verified pipeline, v0.1.9 speeds things up with batch formatting, and v0.1.10 fixes CRLF input failures."
 pubDate: 2026-08-23
-tags: ["rust-fmt", "rust", "vscode", "release"]
 draft: false
 lang: en
 ---

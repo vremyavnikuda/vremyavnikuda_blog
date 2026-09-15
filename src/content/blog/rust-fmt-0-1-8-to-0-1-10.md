@@ -2,7 +2,6 @@
 title: "rust-fmt v0.1.8〜v0.1.10 - マクロフォーマッタの安全性パイプライン"
 description: "rust-fmt v0.1.8 はマクロ整形をトークン検証パイプラインで全面刷新し、v0.1.9 はバッチ整形で高速化、v0.1.10 は CRLF 入力の整形失敗を修正。"
 pubDate: 2026-08-23
-tags: ["rust-fmt", "rust", "vscode", "release"]
 draft: false
 lang: ja
 ---

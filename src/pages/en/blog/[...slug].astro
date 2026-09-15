@@ -16,6 +16,8 @@ type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const { Content } = await post.render();
+// ponytail: MathJax is ~1MB from a CDN; only a couple of posts have formulas
+const hasMath = post.body.includes('$');
 ---
 
 <BaseLayout 
@@ -23,19 +25,23 @@ const { Content } = await post.render();
   description={post.data.description}
   canonicalUrl={post.data.sourceUrl}
 >
-  <script is:inline>
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true,
-      },
-      options: {
-        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-      },
-    };
-  </script>
-  <script is:inline src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  {hasMath && (
+    <>
+    <script is:inline>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          processEscapes: true,
+        },
+        options: {
+          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+        },
+      };
+    </script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    </>
+  )}
   <article class="max-w-3xl mx-auto px-4 py-16">
     <header class="mb-12">
       <time class="text-sm text-[var(--color-text-secondary)]">

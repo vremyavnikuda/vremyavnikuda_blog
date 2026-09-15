@@ -196,11 +196,12 @@
     @apply italic;
   }
 
+  /* ponytail: justified text needs hyphenation to look right, and the body
+     font is monospace, so it never will. Left-aligned instead. */
   .article-prose p,
   .article-prose li,
   .article-prose blockquote {
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: left;
   }
 
   .prose table {

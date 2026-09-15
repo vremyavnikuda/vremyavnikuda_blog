@@ -46,6 +46,13 @@
     border-radius: 2px;
   }
 
+  /* Keeps a heading from dropping one stray character onto its own line. */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;

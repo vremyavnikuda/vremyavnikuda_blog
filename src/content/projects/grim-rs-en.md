@@ -3,7 +3,6 @@ title: "grim-rs"
 description: "A Rust-based utility and library for taking screenshots on Wayland compositors and Windows"
 github: "https://github.com/vremyavnikuda/grim-rs"
 link: "https://crates.io/crates/grim-rs"
-tags: ["rust", "linux", "wayland", "windows"]
 featured: true
 lang: en
 projectType: "project"

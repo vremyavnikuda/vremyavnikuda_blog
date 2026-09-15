@@ -2,7 +2,6 @@
 title: "rust-fmt v0.1.3 - Defaults and Faster Workspaces"
 description: "v0.1.3 reduces setup friction and speeds up workspace formatting."
 pubDate: 2026-02-08
-tags: ["rust-fmt", "vscode", "rust", "release"]
 draft: false
 lang: en
 ---

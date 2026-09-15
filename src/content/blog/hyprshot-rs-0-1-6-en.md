@@ -2,7 +2,6 @@
 title: "hyprshot-rs v0.1.6 - Stability and Predictability First"
 description: "v0.1.6 focuses on predictable Wayland behavior, a reworked freeze flow, and stronger reliability across compositors."
 pubDate: 2026-02-02
-tags: ["hyprshot-rs", "wayland", "hyprland", "sway", "release"]
 draft: false
 lang: en
 ---

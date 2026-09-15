@@ -1,9 +1,20 @@
 ---
+import { getCollection } from 'astro:content';
 import { languages } from '../i18n/ui';
 import { getLangFromUrl } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const currentPath = Astro.url.pathname;
+
+// Not every URL exists in both languages: the TWIR imports are English-only,
+// and the two blogs paginate to different lengths. Swapping the prefix blindly
+// sent those to a 404, so a blog path with no counterpart falls back to the
+// blog index of the target language.
+const postKeys = new Set(
+  (await getCollection('blog'))
+    .filter((post) => !post.data.draft)
+    .map((post) => `${post.data.lang}:${post.slug.replace(/-en$/, '')}`),
+);
 
 function getPathForLang(targetLang: string) {
   if (targetLang === lang) return currentPath;
@@ -15,11 +26,14 @@ function getPathForLang(targetLang: string) {
   }
   
   // Добавляем префикс нового языка
-  if (targetLang === 'en') {
-    return `/en${basePath}`;
+  const path = targetLang === 'en' ? `/en${basePath}` : basePath;
+
+  const slug = path.match(/^(?:\/en)?\/blog\/(.+?)\/?$/)?.[1];
+  if (slug && !postKeys.has(`${targetLang}:${slug}`)) {
+    return targetLang === 'en' ? '/en/blog' : '/blog';
   }
-  
-  return basePath;
+
+  return path;
 }
 ---
 
@@ -45,8 +59,8 @@ function getPathForLang(targetLang: string) {
       <a
         href={getPathForLang(code)}
         class:list={[
-          'block px-4 py-2 text-sm hover:bg-primary-600 hover:text-white transition-colors first:rounded-t last:rounded-b',
-          lang === code && 'bg-primary-600 text-white'
+          'block px-4 py-2 text-sm hover:bg-primary-400 hover:text-slate-950 transition-colors first:rounded-t last:rounded-b',
+          lang === code && 'bg-primary-400 text-slate-950'
         ]}
         role="menuitem"
       >

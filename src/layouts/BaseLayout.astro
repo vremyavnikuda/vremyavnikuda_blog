@@ -10,6 +10,9 @@ interface Props {
   canonicalUrl?: string;
   noHeader?: boolean;
   noFooter?: boolean;
+  ogType?: 'website' | 'article';
+  publishedTime?: Date;
+  modifiedTime?: Date;
 }
 
 const lang = getLangFromUrl(Astro.url);
@@ -21,9 +24,18 @@ const {
   canonicalUrl,
   noHeader = false,
   noFooter = false,
+  ogType = 'website',
+  publishedTime,
+  modifiedTime,
 } = Astro.props;
 
-const canonicalURL = canonicalUrl ? new URL(canonicalUrl) : new URL(Astro.url.pathname, Astro.site);
+// canonicalUrl points a mirrored post at its original (TWiR), which is right
+// for search indexing. og:url is a different thing - the identity of the share
+// card - and must stay on our own page, or social engagement goes to the
+// source site instead.
+const pageURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalURL = canonicalUrl ? new URL(canonicalUrl) : pageURL;
+const ogImage = new URL('/og.png', Astro.site);
 ---
 
 <!doctype html>
@@ -38,16 +50,41 @@ const canonicalURL = canonicalUrl ? new URL(canonicalUrl) : new URL(Astro.url.pa
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={pageURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="vremyavnikuda" />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'ja_JP'} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="vremyavnikuda - systems software, rust, linux" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={t('site.title')}
+      href={lang === 'en' ? '/en/rss.xml' : '/rss.xml'}
+    />
   </head>
   <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-primary-400 focus:px-4 focus:py-2 focus:text-slate-950"
+    >
+      {lang === 'en' ? 'Skip to content' : 'コンテンツへスキップ'}
+    </a>
     {!noHeader && <Header />}
-    <main class="min-h-screen">
+    <main id="main" class="min-h-screen">
       <slot />
     </main>
     {!noFooter && <Footer />}

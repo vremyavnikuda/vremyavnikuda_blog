@@ -3,9 +3,19 @@
 @tailwind utilities;
 
 @layer base {
+  /* Variable weight 200-700 in one file. local() first, so anyone who already
+     has Cascadia Code installed never downloads it.
+     ponytail: no italic file shipped - the browser synthesises oblique, and
+     italics only show up in <em> and blockquotes. Add CascadiaCodeItalic.woff2
+     (+159KB) if that ever looks wrong. */
   @font-face {
     font-family: 'Cascadia Code';
-    src: local('Cascadia Code'), local('CascadiaCode');
+    src:
+      local('Cascadia Code'),
+      local('CascadiaCode'),
+      url('/fonts/CascadiaCode.woff2') format('woff2');
+    font-weight: 200 700;
+    font-style: normal;
     font-display: swap;
   }
 
@@ -25,9 +35,33 @@
   body {
     @apply text-[var(--color-text-primary)] bg-[var(--color-bg-primary)];
     @apply antialiased;
-    font-family: 'Cascadia Code', 'Cascadia Mono', monospace;
+    font-family: 'Cascadia Code',
+      'Cascadia Mono',
+      /* Japanese: Cascadia Code has no CJK glyphs, so these decide how the ja
+         side looks. Without them the browser picks per platform - Edge on
+         Windows lands on BIZ UDGothic, others land elsewhere - so the order
+         below pins what we already ship: BIZ UDGothic (Win10 1809+),
+         Yu Gothic (older Windows), Hiragino (macOS), Noto Sans CJK JP (Linux). */
+      'BIZ UDGothic',
+      'Yu Gothic',
+      'Hiragino Kaku Gothic ProN',
+      'Noto Sans CJK JP',
+      monospace;
     overflow-x: clip;
     max-width: 100%;
+  }
+
+  :focus-visible {
+    outline: 2px solid theme('colors.primary.400');
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Keeps a heading from dropping one stray character onto its own line. */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -190,11 +224,12 @@
     @apply italic;
   }
 
+  /* ponytail: justified text needs hyphenation to look right, and the body
+     font is monospace, so it never will. Left-aligned instead. */
   .article-prose p,
   .article-prose li,
   .article-prose blockquote {
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: left;
   }
 
   .prose table {

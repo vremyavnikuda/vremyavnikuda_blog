@@ -2,7 +2,6 @@
 title: "rust-fmt v0.1.3 - 既定設定とワークスペース高速化"
 description: "v0.1.3 は設定の手間を減らし、ワークスペース整形を高速化します。"
 pubDate: 2026-02-08
-tags: ["rust-fmt", "vscode", "rust", "release"]
 draft: false
 lang: ja
 ---

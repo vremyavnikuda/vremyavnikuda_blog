@@ -2,7 +2,6 @@
 title: "Why Open Word Just to View One Formula? Meet MathViewer"
 description: "MathViewer is a small free utility for viewing .mathml and .mml files without a full office suite. Here is what v0.1.6 offers today and what is coming next."
 pubDate: 2026-04-11
-tags: ["mathviewer", "mathml", "mml", "shikou-core", "windows", "release"]
 draft: false
 lang: en
 ---

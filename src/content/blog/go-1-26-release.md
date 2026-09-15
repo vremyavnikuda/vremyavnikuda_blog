@@ -2,17 +2,6 @@
 title: "Go 1.26: 何が新しく、なぜ重要か"
 description: "Go 1.26の分かりやすい概要: 新しいGCでアプリが速くなり、改善されたgo fixと実用的な新機能の例を紹介。"
 pubDate: 2026-02-11
-tags:
-  [
-    "go",
-    "release",
-    "runtime",
-    "gc",
-    "tooling",
-    "crypto",
-    "standard-library",
-    "platforms",
-  ]
 draft: false
 lang: ja
 ---

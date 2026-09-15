@@ -3,7 +3,6 @@ title: "spath_gui"
 description: "Graphical interface for managing Windows PATH"
 github: "https://github.com/vremyavnikuda/spath"
 link: "https://github.com/vremyavnikuda/spath/releases"
-tags: ["rust", "windows", "path", "gui", "tauri"]
 featured: false
 lang: en
 projectType: "project"

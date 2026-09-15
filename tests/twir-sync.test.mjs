@@ -2,8 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
+  buildDescription,
   createLinkPost,
   createMirrorPost,
+  normalizeImportedHtml,
   parseArchiveIssues,
   parseAtomFeed,
   planIssuesToImport,
@@ -162,4 +164,56 @@ test('createLinkPost falls back to a safe local wrapper around the original issu
   assert.match(post, /importMode: linkpost/);
   assert.match(post, /Imported from \[This Week in Rust 651\]/);
   assert.match(post, /Continue to the original issue/);
+});
+
+const crateSection = (blurb) =>
+  `<h2 id="crate-of-the-week"><a href="#crate-of-the-week">Crate of the Week</a></h2><p>${blurb}</p>`;
+
+test('buildDescription uses the crate of the week, so issues do not share one description', () => {
+  const a = buildDescription({
+    issueNumber: 659,
+    contentHtml: crateSection("This week's crate is <b>apis-saltans</b>, a Zigbee implementation. Thanks to Richard for the suggestion!"),
+  });
+  const b = buildDescription({
+    issueNumber: 660,
+    contentHtml: crateSection("This week's crate is <b>dashu</b>, a set of arbitrary precision numbers. Thanks to JacobZ!"),
+  });
+
+  assert.equal(a, "This week's crate is apis-saltans, a Zigbee implementation.");
+  assert.notEqual(a, b);
+});
+
+test('buildDescription drops the trailing note whether it says Thanks to or Despite', () => {
+  const description = buildDescription({
+    issueNumber: 651,
+    contentHtml: crateSection("This week's crate is <b>cloakrs</b>, a CLI tool for masking PII. Despite having no suggestion, llogiq is content."),
+  });
+
+  assert.equal(description, "This week's crate is cloakrs, a CLI tool for masking PII.");
+});
+
+test('buildDescription keeps a leading dot attached to its own word', () => {
+  const description = buildDescription({
+    issueNumber: 662,
+    contentHtml: crateSection("This week's crate is <b>cargo-efmt</b>, a replacement for cargo fmt to support <code>.editorconfig</code> . Thanks to kle!"),
+  });
+
+  assert.match(description, /support \.editorconfig\.$/);
+});
+
+test('buildDescription falls back to a numbered line when the crate blurb is empty', () => {
+  const description = buildDescription({
+    issueNumber: 657,
+    contentHtml: crateSection("This week's crate is <b>cargo-rdme</b>, a Thanks to Diogo for the self-suggestion!"),
+  });
+
+  assert.equal(description, 'This Week in Rust 657: the weekly roundup of Rust project updates, calls for participation, and upcoming events.');
+});
+
+test('normalizeImportedHtml demotes the imported h1 so the page keeps a single h1', () => {
+  const html = normalizeImportedHtml('<h1 id="quote-of-the-week"><a href="#q">Quote of the Week</a></h1><h2>Jobs</h2>');
+
+  assert.doesNotMatch(html, /<h1|<\/h1>/);
+  assert.match(html, /<h2 id="quote-of-the-week">/);
+  assert.match(html, /<h2>Jobs<\/h2>/);
 });

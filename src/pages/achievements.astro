@@ -17,16 +17,20 @@ const description = '私の実績とサーティフィケート';
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="max-w-3xl mx-auto px-4 py-16">
     <h1 class="text-4xl font-bold text-primary-400 mb-8">{title}</h1>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {sortedAchievements.length === 0 && (
+      <p class="text-[var(--color-text-secondary)]">実績はまだありません。</p>
+    )}
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {sortedAchievements.map((achievement, index) => (
         <div 
           class="achievement-card bg-[var(--color-bg-secondary)] border border-[var(--color-border)] rounded-lg overflow-hidden hover:border-primary-400 transition-all cursor-pointer"
           data-achievement-index={index}
         >
-          <div class="aspect-video bg-[var(--color-bg)] flex items-center justify-center overflow-hidden">
+          <div class="aspect-video bg-[var(--color-bg-primary)] flex items-center justify-center overflow-hidden">
             <Image
               src={achievement.data.image}
               alt={achievement.data.title}
@@ -53,8 +57,8 @@ const description = '私の実績とサーティフィケート';
       >
         ✕
       </button>
-      <div class="bg-[var(--color-bg)] border border-primary-400 rounded-lg overflow-hidden flex flex-col">
-        <div class="p-4 flex items-center justify-center bg-[var(--color-bg)]">
+      <div class="bg-[var(--color-bg-primary)] border border-primary-400 rounded-lg overflow-hidden flex flex-col">
+        <div class="p-4 flex items-center justify-center bg-[var(--color-bg-primary)]">
           <img 
             id="modal-image"
             src=""
@@ -65,7 +69,7 @@ const description = '私の実績とサーティフィケート';
         <div class="p-3 border-t border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
           <h2 id="modal-title" class="text-lg font-bold text-primary-400 mb-1"></h2>
           <p id="modal-organization" class="text-xs text-[var(--color-text-secondary)] mb-1"></p>
-          <p id="modal-description" class="text-sm text-[var(--color-text)] mb-1"></p>
+          <p id="modal-description" class="text-sm text-[var(--color-text-primary)] mb-1"></p>
           <p id="modal-date" class="text-xs text-[var(--color-text-secondary)]"></p>
           <div id="modal-verification" class="mt-2"></div>
         </div>
@@ -87,9 +91,16 @@ const description = '私の実績とサーティフィケート';
     }
   </style>
 
-  <script is:inline type="application/json" id="achievements-data">
-    {JSON.stringify(sortedAchievements.map(({ data }) => data))}
-  </script>
+  <!-- is:inline leaves the script verbatim, so the expression was shipped as
+       literal text and JSON.parse threw, which killed the click handlers.
+       set:html injects the real payload; < keeps a stray </script> in the
+       data from ending the tag early. -->
+  <script
+    is:inline
+    type="application/json"
+    id="achievements-data"
+    set:html={JSON.stringify(sortedAchievements.map(({ data }) => data)).replace(/</g, '\u003c')}
+  />
   <script is:inline>
     const achievements = JSON.parse(document.getElementById('achievements-data')?.textContent ?? '[]');
     const modal = document.getElementById('achievement-modal');

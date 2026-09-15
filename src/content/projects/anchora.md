@@ -3,7 +3,6 @@ title: "anchora"
 description: "コードコメントをエディター内タスクマネージャーに変換するVS Code拡張機能"
 github: "https://github.com/vremyavnikuda/anchora"
 link: "https://marketplace.visualstudio.com/items?itemName=vremyavnikuda.anchora"
-tags: ["rust", "typescript", "vscode", "task-manager", "developer-tools"]
 featured: true
 lang: ja
 projectType: "project"

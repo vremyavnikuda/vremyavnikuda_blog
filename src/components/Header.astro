@@ -17,7 +17,7 @@ const currentPath = Astro.url.pathname;
 ---
 
 <header class="glass-header sticky top-0 z-50 border-b border-cyan-300/20">
-  <nav class="max-w-4xl mx-auto px-4 py-4">
+  <nav class="max-w-3xl mx-auto px-4 py-4">
     <div class="flex items-center justify-between">
       <a href={getLocalizedPath('/', lang)} class="text-xl font-bold hover:text-primary-400 transition-colors">
         vremyavnikuda
@@ -90,6 +90,14 @@ const currentPath = Astro.url.pathname;
       const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
       mobileMenuButton.setAttribute('aria-expanded', String(!isExpanded));
       mobileMenu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+        mobileMenuButton.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.add('hidden');
+        mobileMenuButton.focus();
+      }
     });
 
     document.addEventListener('click', (event) => {

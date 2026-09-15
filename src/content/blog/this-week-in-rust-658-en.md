@@ -1,9 +1,8 @@
 ---
 title: "This Week in Rust 658"
-description: "Hello and welcome to another issue of This Week in Rust ! Rust is a programming language empowering everyone to build reliable and efficient software. This i..."
+description: "This week's crate is deconvolution, a image deconvolution and restoration library."
 pubDate: 2026-07-01
 updatedDate: 2026-07-01
-tags: ["rust","twir","newsletter"]
 draft: false
 lang: en
 source: twir
@@ -397,7 +396,7 @@ it mentioned here. Please remember to add a link to the event too.
 Email the <a href="mailto:community-team@rust-lang.org">Rust Community Team</a> for access.</p>
 <h2 id="jobs"><a class="toclink" href="#jobs">Jobs</a></h2>
 <p>Please see the latest <a href="https://www.reddit.com/r/rust/comments/1ttbtf5/official_rrust_whos_hiring_thread_for_jobseekers/">Who's Hiring thread on r/rust</a></p>
-<h1 id="quote-of-the-week"><a class="toclink" href="#quote-of-the-week">Quote of the Week</a></h1>
+<h2 id="quote-of-the-week"><a class="toclink" href="#quote-of-the-week">Quote of the Week</a></h2>
 <blockquote>
 <p>I <em>do</em> rather hope anyone using <code>-Zllvm-target-features</code> or any stabilized form thereof would know that they are getting a conversation with the dragon directly and they should mind their words carefully if they do not wish to be barbecued by it and served over a nice plate of iron filings.</p>
 </blockquote>

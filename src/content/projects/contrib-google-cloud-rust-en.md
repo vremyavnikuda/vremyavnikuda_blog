@@ -2,7 +2,6 @@
 title: "google-cloud-rust"
 description: "Rust SDK for Google Cloud Platform"
 github: "https://github.com/yoshidan/google-cloud-rust"
-tags: ["rust", "gcp", "cloud", "sdk"]
 projectType: "contribution"
 category: "contributing"
 parentProject: "google"

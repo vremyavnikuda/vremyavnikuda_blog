@@ -2,7 +2,6 @@
 title: "leetcode"
 description: "LeetCodeオープンソースプロジェクト（doocs/leetcode）への貢献"
 github: "https://github.com/vremyavnikuda/leetcode"
-tags: ["leetcode", "algorithms", "rust", "c"]
 projectType: "contribution"
 category: "contributing"
 parentProject: "contributing"

@@ -2,7 +2,6 @@
 title: "プロジェクト運用に関する個人的なお知らせ"
 description: "商用案件とオープンソースの時間配分を見直し、一部プロジェクトをメンテナンスモードへ移行します。"
 pubDate: 2026-03-05
-tags: ["open-source", "maintenance", "projects", "update"]
 draft: false
 lang: ja
 ---

@@ -2,7 +2,6 @@
 title: "Books for Backend Development That Are Actually Worth Your Time"
 description: "A curated list of books that genuinely changed how I understand system internals, based on years of experience"
 pubDate: 2025-01-03
-tags: ["backend", "books", "rust", "distributed-systems"]
 draft: false
 lang: en
 ---

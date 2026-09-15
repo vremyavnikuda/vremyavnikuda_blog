@@ -1,0 +1,30 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+// ponytail: bilingual static page — a static 404 is served for /en/* too, so the URL can't tell us the language
+---
+
+<BaseLayout title="404 - vremyavnikuda" description="Page not found">
+  <div class="max-w-3xl mx-auto px-4 py-24">
+    <h1 class="text-6xl font-bold mb-8">404</h1>
+    <p class="text-xl text-[var(--color-text-secondary)] mb-2">
+      ページが見つかりませんでした。
+    </p>
+    <p class="text-xl text-[var(--color-text-secondary)] mb-8">
+      This page does not exist.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4">
+      <a
+        href="/"
+        class="px-6 py-3 bg-primary-400 text-slate-950 font-medium rounded-lg hover:bg-primary-300 transition-colors w-full sm:w-auto text-center"
+      >
+        ホーム
+      </a>
+      <a
+        href="/en/"
+        class="px-6 py-3 border border-[var(--color-border)] rounded-lg hover:bg-[var(--color-bg-secondary)] transition-colors w-full sm:w-auto text-center"
+      >
+        Home
+      </a>
+    </div>
+  </div>
+</BaseLayout>

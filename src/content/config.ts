@@ -7,7 +7,6 @@ const blog = defineCollection({
     description: z.string(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
     lang: z.enum(['ja', 'en']).default('ja'),
     source: z.enum(['local', 'twir']).default('local'),
@@ -27,7 +26,6 @@ const projects = defineCollection({
     link: z.string().url().optional(),
     github: z.string().url().optional(),
     image: z.string().optional(),
-    tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
     lang: z.enum(['ja', 'en']).default('ja'),
     // Project type and hierarchy

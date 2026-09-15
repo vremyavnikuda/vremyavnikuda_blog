@@ -2,7 +2,6 @@
 title: "slurp-rs"
 description: "Wayland region selection utility in Rust with both CLI and public library API"
 github: "https://github.com/vremyavnikuda/slurp-rs"
-tags: ["rust", "linux", "wayland", "region-selection", "library"]
 featured: true
 lang: en
 projectType: "project"

@@ -3,7 +3,6 @@ title: "spath_cli"
 description: "Windows PATHを管理するためのコマンドラインツール"
 github: "https://github.com/vremyavnikuda/spath_cli"
 link: "https://crates.io/crates/spath-cli"
-tags: ["rust", "windows", "path", "cli"]
 featured: false
 lang: ja
 projectType: "project"

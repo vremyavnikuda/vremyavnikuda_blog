@@ -2,7 +2,6 @@
 title: "Archiving grim-rs and hyprshot-rs"
 description: "Two projects have been moved to archive. Development is complete, but the projects will remain as they are."
 pubDate: 2026-04-03
-tags: ["grim-rs", "hyprshot-rs", "open-source", "archive", "update"]
 draft: false
 lang: en
 ---

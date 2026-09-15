@@ -3,7 +3,6 @@ title: "anchora"
 description: "A VS Code extension that turns code comments into an in-editor task manager"
 github: "https://github.com/vremyavnikuda/anchora"
 link: "https://marketplace.visualstudio.com/items?itemName=vremyavnikuda.anchora"
-tags: ["rust", "typescript", "vscode", "task-manager", "developer-tools"]
 featured: true
 lang: en
 projectType: "project"

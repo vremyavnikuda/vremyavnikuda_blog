@@ -2,12 +2,9 @@
 title: "Rust 1.93.0: musl, allocators, and other winter release surprises"
 description: "My take on Rust 1.93.0: musl 1.2.5, allocator TLS, asm cfg lines, and migration notes."
 pubDate: 2026-01-22
-tags: ["rust", "release", "musl", "allocators", "asm"]
 draft: false
 lang: en
 ---
-
-# Rust 1.93.0: musl, allocators, and other winter release surprises
 
 Hello! Today, **January 22, 2026**, **Rust 1.93.0** was released, and I want to share my impressions of this release.
 

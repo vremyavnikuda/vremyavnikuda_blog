@@ -2,7 +2,6 @@
 title: "バックエンド開発のための本当に読むべき書籍"
 description: "何年もの経験から厳選した、システムの内部動作を深く理解するための書籍リスト"
 pubDate: 2025-01-03
-tags: ["backend", "books", "rust", "distributed-systems"]
 draft: false
 lang: ja
 ---

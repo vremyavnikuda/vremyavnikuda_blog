@@ -2,7 +2,6 @@
 title: "hyprshot-rs v0.1.6 - 安定性と予測可能性を最優先に"
 description: "v0.1.6 では Wayland 上での挙動をより予測可能にし、freeze を再設計し、信頼性と UX を強化しました。"
 pubDate: 2026-02-02
-tags: ["hyprshot-rs", "wayland", "hyprland", "sway", "release"]
 draft: false
 lang: ja
 ---

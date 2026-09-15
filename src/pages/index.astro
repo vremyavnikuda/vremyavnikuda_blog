@@ -13,7 +13,7 @@ const allPosts = (await getCollection('blog'))
 ---
 
 <BaseLayout>
-  <div class="max-w-4xl mx-auto px-4 py-16">
+  <div class="max-w-3xl mx-auto px-4 py-16">
     <section class="mb-24">
       <h1 class="text-4xl md:text-5xl font-bold mb-6">
         {t('home.greeting')}
@@ -24,7 +24,7 @@ const allPosts = (await getCollection('blog'))
       <div class="flex flex-col sm:flex-row gap-4">
         <a 
           href={getLocalizedPath('/blog', lang)}
-          class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors w-full sm:w-auto text-center"
+          class="px-6 py-3 bg-primary-400 text-slate-950 font-medium rounded-lg hover:bg-primary-300 transition-colors w-full sm:w-auto text-center"
         >
           {t('home.readBlog')}
         </a>
@@ -51,7 +51,7 @@ const allPosts = (await getCollection('blog'))
             <article class="group">
               <a href={getLocalizedPath(`/blog/${post.slug}`, lang)} class="block">
                 <time class="text-sm text-[var(--color-text-secondary)]">
-                  {post.data.pubDate.toLocaleDateString('en-US', {
+                  {post.data.pubDate.toLocaleDateString('ja-JP', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'

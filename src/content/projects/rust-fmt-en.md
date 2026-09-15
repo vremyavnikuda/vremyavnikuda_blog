@@ -3,7 +3,6 @@ title: "rust-fmt"
 description: "VS Code extension for formatting Rust code via rustfmt"
 github: "https://github.com/shikoucore/rust-fmt"
 link: "https://marketplace.visualstudio.com/items?itemName=vremyavnikuda.rust-fmt"
-tags: ["rust", "typescript", "vscode", "formatter", "developer-tools"]
 featured: true
 lang: en
 projectType: "project"

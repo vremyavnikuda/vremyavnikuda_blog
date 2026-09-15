@@ -3,7 +3,6 @@ title: "grim-rs"
 description: "WaylandコンポジターとWindows用のスクリーンショット撮影ユーティリティとライブラリ（Rust製）"
 github: "https://github.com/vremyavnikuda/grim-rs"
 link: "https://crates.io/crates/grim-rs"
-tags: ["rust", "linux", "wayland", "windows"]
 featured: true
 lang: ja
 projectType: "project"

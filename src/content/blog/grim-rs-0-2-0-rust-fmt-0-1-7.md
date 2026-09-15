@@ -2,7 +2,6 @@
 title: "grim-rs v0.2.0 と rust-fmt v0.1.7 - Windowsサポートとマクロパーサー改善"
 description: "grim-rs v0.2.0 は Windows バックエンド（DXGI Desktop Duplication / D3D11）を追加し、rust-fmt v0.1.7 はマクロパーサーを改善。さらに LeetCode（doocs/leetcode）へ4件のソリューションを追加。"
 pubDate: 2026-08-19
-tags: ["grim-rs", "rust-fmt", "leetcode", "rust", "release"]
 draft: false
 lang: ja
 ---

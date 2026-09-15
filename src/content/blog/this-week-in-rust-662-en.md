@@ -1,9 +1,8 @@
 ---
 title: "This Week in Rust 662"
-description: "Hello and welcome to another issue of This Week in Rust ! Rust is a programming language empowering everyone to build reliable and efficient software. This i..."
+description: "This week's crate is cargo-efmt, a drop-in replacement for cargo fmt to support .editorconfig."
 pubDate: 2026-07-29
 updatedDate: 2026-07-29
-tags: ["rust","twir","newsletter"]
 draft: false
 lang: en
 source: twir
@@ -481,7 +480,7 @@ it mentioned here. Please remember to add a link to the event too.
 Email the <a href="mailto:community-team@rust-lang.org">Rust Community Team</a> for access.</p>
 <h2 id="jobs"><a class="toclink" href="#jobs">Jobs</a></h2>
 <p>Please see the latest <a href="https://www.reddit.com/r/rust/comments/1ttbtf5/official_rrust_whos_hiring_thread_for_jobseekers/">Who's Hiring thread on r/rust</a></p>
-<h1 id="quote-of-the-week"><a class="toclink" href="#quote-of-the-week">Quote of the Week</a></h1>
+<h2 id="quote-of-the-week"><a class="toclink" href="#quote-of-the-week">Quote of the Week</a></h2>
 <blockquote>
 <p>So let's talk about what the process has looked like for Netstack3. For 11 months, the team has been ramping up a dogfooding program. At peak, that program has seen about 60 devices running nearly 24/7 in developers' homes.</p>
 <p>Again, if this were any other netstack, we would have expected to uncover a giant mountain of bugs in that time. So, over the past year, how many bugs did the team uncover in the field?</p>

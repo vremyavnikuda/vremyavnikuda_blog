@@ -2,7 +2,6 @@
 title: "hyprshot-rs v0.1.7 と slurp-rs v0.2.0 - Selector統合と公開API"
 description: "2つの関連リリース: hyprshot-rs v0.1.7 は既定選択を slurp-rs API に移行し、slurp-rs v0.2.0 は公開Rust APIを追加。"
 pubDate: 2026-02-21
-tags: ["hyprshot-rs", "slurp-rs", "wayland", "rust", "release"]
 draft: false
 lang: ja
 ---

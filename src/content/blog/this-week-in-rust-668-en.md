@@ -1,6 +1,6 @@
 ---
 title: "This Week in Rust 668"
-description: "Hello and welcome to another issue of This Week in Rust ! Rust is a programming language empowering everyone to build reliable and efficient software. This i..."
+description: "This week's crate is tokio-rcu, a user-space RCU implementation specifically built around the semantics of async rust and tokio."
 pubDate: 2026-09-09
 updatedDate: 2026-09-09
 tags: ["rust","twir","newsletter"]
@@ -511,7 +511,7 @@ it mentioned here. Please remember to add a link to the event too.
 Email the <a href="mailto:community-team@rust-lang.org">Rust Community Team</a> for access.</p>
 <h2 id="jobs"><a class="toclink" href="#jobs">Jobs</a></h2>
 <p>Please see the latest <a href="https://www.reddit.com/r/rust/comments/1vtuq1b/official_rrust_whos_hiring_thread_for_jobseekers/">Who's Hiring thread on r/rust</a></p>
-<h1 id="quote-of-the-week"><a class="toclink" href="#quote-of-the-week">Quote of the Week</a></h1>
+<h2 id="quote-of-the-week"><a class="toclink" href="#quote-of-the-week">Quote of the Week</a></h2>
 <blockquote>
 <p>The Demon has access to a Super Turing Machine.</p>
 </blockquote>

@@ -26,7 +26,7 @@ const description = 'My achievements and certificates';
           class="achievement-card bg-[var(--color-bg-secondary)] border border-[var(--color-border)] rounded-lg overflow-hidden hover:border-primary-400 transition-all cursor-pointer"
           data-achievement-index={index}
         >
-          <div class="aspect-video bg-[var(--color-bg)] flex items-center justify-center overflow-hidden">
+          <div class="aspect-video bg-[var(--color-bg-primary)] flex items-center justify-center overflow-hidden">
             <Image
               src={achievement.data.image}
               alt={achievement.data.title}
@@ -53,8 +53,8 @@ const description = 'My achievements and certificates';
       >
         ✕
       </button>
-      <div class="bg-[var(--color-bg)] border border-primary-400 rounded-lg overflow-hidden flex flex-col">
-        <div class="p-4 flex items-center justify-center bg-[var(--color-bg)]">
+      <div class="bg-[var(--color-bg-primary)] border border-primary-400 rounded-lg overflow-hidden flex flex-col">
+        <div class="p-4 flex items-center justify-center bg-[var(--color-bg-primary)]">
           <img 
             id="modal-image"
             src=""
@@ -65,7 +65,7 @@ const description = 'My achievements and certificates';
         <div class="p-3 border-t border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
           <h2 id="modal-title" class="text-lg font-bold text-primary-400 mb-1"></h2>
           <p id="modal-organization" class="text-xs text-[var(--color-text-secondary)] mb-1"></p>
-          <p id="modal-description" class="text-sm text-[var(--color-text)] mb-1"></p>
+          <p id="modal-description" class="text-sm text-[var(--color-text-primary)] mb-1"></p>
           <p id="modal-date" class="text-xs text-[var(--color-text-secondary)]"></p>
           <div id="modal-verification" class="mt-2"></div>
         </div>

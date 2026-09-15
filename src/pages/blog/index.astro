@@ -28,7 +28,7 @@ const allPosts = (await getCollection('blog'))
           <article class="group">
             <a href={getLocalizedPath(`/blog/${post.slug}`, lang)} class="block">
               <time class="text-sm text-[var(--color-text-secondary)]">
-                {post.data.pubDate.toLocaleDateString('en-US', {
+                {post.data.pubDate.toLocaleDateString('ja-JP', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'

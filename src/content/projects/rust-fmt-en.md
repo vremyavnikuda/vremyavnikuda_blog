@@ -1,7 +1,7 @@
 ---
 title: "rust-fmt"
 description: "VS Code extension for formatting Rust code via rustfmt"
-github: "https://github.com/shikoucore/rust-fmt"
+github: "https://github.com/vremyavnikuda/rust-fmt"
 link: "https://marketplace.visualstudio.com/items?itemName=vremyavnikuda.rust-fmt"
 featured: true
 lang: en
@@ -9,7 +9,7 @@ projectType: "project"
 category: "projects"
 parentProject: "Shikou Core"
 status: "active"
-version: "0.1.10"
+version: "0.1.13"
 roadmap:
   - version: "0.1.0"
     releaseStatus: "release"
@@ -78,6 +78,29 @@ roadmap:
     releaseStatus: "release"
     items:
       - "Fixed: Formatting a CRLF file with // comments no longer fails closed; input is normalized to LF internally and CRLF restored in the final output"
+  - version: "0.1.11"
+    releaseStatus: "release"
+    items:
+      - "Added: rust-fmt: Check Formatting command, a cargo fmt --check that also covers macro_rules! bodies, with results in the Problems panel"
+      - "Added: Vim and Neovim support with no plugin: rust-fmt-mf is a stdin-to-stdout filter for formatprg and conform.nvim"
+      - "Added: Automated release of per-platform .vsix packages (about 0.5 MB instead of 7 MB) and binaries on GitHub Releases"
+      - "Added: Status bar shows rust-fmt: macros skipped with the reason when the native macro formatter gives up"
+      - "Fixed: The space before != inside macro invocation arguments is kept; generated items and where clauses inside macro bodies are no longer left collapsed"
+  - version: "0.1.12"
+    releaseStatus: "release"
+    items:
+      - "Changed: Formatting a macro-heavy file is about three times faster (356 lines: 2.5s -> 0.84s)"
+      - "Fixed: Files with two import groups or a short match arm no longer silently skip macro formatting"
+      - "Fixed: A macro_rules! inside quote! { ... } is no longer reformatted as a real definition"
+  - version: "0.1.13"
+    releaseStatus: "release"
+    items:
+      - "Changed: Blank lines are left alone by default; rustfmt.compactBlankLines / --compact-blank-lines restores the compact output"
+      - "Added: --rustfmt-arg for the standalone binary and a one-line installer (install.py) for Vim and Neovim on Linux, macOS and Windows"
+      - "Fixed: rust-fmt-mf never leaves an empty buffer, even if formatting fails, panics or overflows the stack"
+      - "Fixed: Format Selection works on stable rustfmt and keeps only the changes that touch the selected lines"
+      - "Fixed: A macro_rules! whose last arm has no ; no longer stops the whole file from formatting"
+      - "Fixed: rustfmt.extraArgs applies with the native formatter on; edition.workspace = true is respected; non-ASCII text in large files is no longer corrupted"
 ---
 
 VS Code extension for formatting Rust code via rustfmt. Simple and fast extension: runs `rustfmt --emit stdout`, automatically detects your `rustfmt.toml` (if present), and works on Linux/Windows/macOS. Supports format-on-save, manual execution from the command palette, and custom parameters such as binary path and additional arguments.

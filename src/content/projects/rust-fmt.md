@@ -1,7 +1,7 @@
 ---
 title: "rust-fmt"
 description: "rustfmtを使用したRustコードのフォーマットを行うVS Code拡張機能"
-github: "https://github.com/shikoucore/rust-fmt"
+github: "https://github.com/vremyavnikuda/rust-fmt"
 link: "https://marketplace.visualstudio.com/items?itemName=vremyavnikuda.rust-fmt"
 featured: true
 lang: ja
@@ -9,7 +9,7 @@ projectType: "project"
 category: "projects"
 parentProject: "Shikou Core"
 status: "active"
-version: "0.1.10"
+version: "0.1.13"
 roadmap:
   - version: "0.1.0"
     releaseStatus: "release"
@@ -78,6 +78,29 @@ roadmap:
     releaseStatus: "release"
     items:
       - "修正: CRLF 改行かつ // コメントを含むファイルの整形が SKIPPED やエラーになる問題を修正（内部パスでは LF に正規化し、最終出力で CRLF を復元）"
+  - version: "0.1.11"
+    releaseStatus: "release"
+    items:
+      - "追加: rust-fmt: Check Formatting コマンド。macro_rules! 本体も対象にした cargo fmt --check 相当で、結果を Problems パネルに表示"
+      - "追加: プラグイン不要の Vim / Neovim 対応。rust-fmt-mf は formatprg や conform.nvim で使える stdin→stdout フィルタ"
+      - "追加: プラットフォーム別 .vsix（7 MB ではなく約 0.5 MB）とバイナリを GitHub Releases に公開する自動リリース"
+      - "追加: ネイティブマクロフォーマッタが整形を断念した場合、ステータスバーに理由付きで rust-fmt: macros skipped を表示"
+      - "修正: マクロ呼び出しの引数内で != の前のスペースを保持。マクロ本体内で生成されるアイテムや where 句が潰れたままにならないように修正"
+  - version: "0.1.12"
+    releaseStatus: "release"
+    items:
+      - "変更: マクロの多いファイルの整形が約3倍高速に（356行: 2.5秒→0.84秒）"
+      - "修正: import グループが2つあるファイルや短い match アームを含むファイルで、マクロ整形が黙ってスキップされる問題を修正"
+      - "修正: quote! { ... } 内の macro_rules! を実際の定義として再整形しないように修正"
+  - version: "0.1.13"
+    releaseStatus: "release"
+    items:
+      - "変更: 空行をデフォルトで保持。rustfmt.compactBlankLines / --compact-blank-lines で以前のコンパクトな出力に戻せる"
+      - "追加: スタンドアロンバイナリの --rustfmt-arg と、Linux・macOS・Windows 向けの Vim / Neovim 用1行インストーラ（install.py）"
+      - "修正: 整形の失敗、パニック、スタックオーバーフロー時も rust-fmt-mf がバッファを空にしない"
+      - "修正: Format Selection が安定版 rustfmt で動作し、選択した行に関わる変更だけを適用"
+      - "修正: 最後のアームに ; がない macro_rules! がファイル全体の整形を止めない"
+      - "修正: ネイティブフォーマッタ有効時にも rustfmt.extraArgs を適用。edition.workspace = true を尊重。大きなファイルの非 ASCII 文字が壊れない"
 ---
 
 rustfmtを使用したRustコードのフォーマットを行うVS Code拡張機能。シンプルで高速な拡張機能：`rustfmt --emit stdout`を実行し、`rustfmt.toml`（存在する場合）を自動検出し、Linux/Windows/macOSで動作します。保存時の自動フォーマット、コマンドパレットからの手動実行、バイナリパスや追加引数などのカスタムパラメータをサポートしています。

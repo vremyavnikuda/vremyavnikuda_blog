@@ -49,7 +49,7 @@ const allPosts = (await getCollection('blog'))
         <div class="space-y-8">
           {allPosts.map((post) => (
             <article class="group">
-              <a href={getLocalizedPath(`/blog/${post.slug}`, lang)} class="block">
+              <a href={getLocalizedPath(`/blog/${post.id}`, lang)} class="block">
                 <time class="text-sm text-[var(--color-text-secondary)]">
                   {post.data.pubDate.toLocaleDateString('ja-JP', {
                     year: 'numeric',

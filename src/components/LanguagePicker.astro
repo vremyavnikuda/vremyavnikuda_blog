@@ -13,7 +13,7 @@ const currentPath = Astro.url.pathname;
 const postKeys = new Set(
   (await getCollection('blog'))
     .filter((post) => !post.data.draft)
-    .map((post) => `${post.data.lang}:${post.slug.replace(/-en$/, '')}`),
+    .map((post) => `${post.data.lang}:${post.id.replace(/-en$/, '')}`),
 );
 
 function getPathForLang(targetLang: string) {

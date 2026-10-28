@@ -32,7 +32,7 @@ const { page } = Astro.props;
       <div class="space-y-12">
         {page.data.map((post) => (
           <article class="group">
-            <a href={`/en/blog/${post.slug.replace(/-en$/, '')}`} class="block">
+            <a href={`/en/blog/${post.id.replace(/-en$/, '')}`} class="block">
               {post.data.source === 'twir' && (
                 <div class="mb-3 flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.2em] text-primary-300">
                   <span class="rounded-full border border-primary-400/40 bg-primary-400/10 px-2.5 py-1">

@@ -12,7 +12,7 @@ const blog = defineCollection({
     draft: z.boolean().default(false),
     lang: z.enum(['ja', 'en']).default('ja'),
     source: z.enum(['local', 'twir']).default('local'),
-    sourceUrl: z.string().url().optional(),
+    sourceUrl: z.url().optional(),
     externalId: z.string().optional(),
     issueNumber: z.number().int().positive().optional(),
     license: z.string().optional(),
@@ -25,8 +25,8 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    link: z.string().url().optional(),
-    github: z.string().url().optional(),
+    link: z.url().optional(),
+    github: z.url().optional(),
     image: z.string().optional(),
     featured: z.boolean().default(false),
     lang: z.enum(['ja', 'en']).default('ja'),
@@ -41,7 +41,7 @@ const projects = defineCollection({
     roadmap: z.array(z.object({
       version: z.string(),
       releaseStatus: z.enum(['release', 'dev', 'close']),
-      link: z.string().url().optional(),
+      link: z.url().optional(),
       items: z.array(z.string()).optional(),
     })).optional(),
   }),
@@ -55,7 +55,7 @@ const achievements = defineCollection({
     date: z.coerce.date(),
     organization: z.string(),
     image: image(), // Optimized local image asset
-    verificationUrl: z.string().url().optional(),
+    verificationUrl: z.url().optional(),
     lang: z.enum(['ja', 'en']).default('ja'),
   }),
 });

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 720 592" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="tdd-contract-title tdd-contract-desc"><title id="tdd-contract-title">What Tests Protect During Refactoring</title><desc id="tdd-contract-desc">The same token and error-with-position tests pass before and after extracting number reading into a helper function.</desc><defs>
+    <style type="text/css"><![CDATA[
+    text { font-family: 'Cascadia Code', Consolas, monospace; fill: #f9fafb; }
+    .name { font-size: 12px; font-weight: 600; }
+    .sub { font-size: 9px; fill: #d1d5db; }
+    .tag { font-size: 8px; fill: #22d3ee; }
+    .edge-label { font-size: 8px; fill: #d1d5db; }
+    .group { font-size: 14px; font-weight: 600; }
+    .legend { font-size: 10px; fill: #d1d5db; }
+    .box { fill: #111827; stroke: #94a3b8; stroke-width: 1.5; }
+    .focal { fill: #083344; stroke: #22d3ee; stroke-width: 1.5; }
+    .edge { fill: none; stroke: #d1d5db; stroke-width: 1.5; marker-end: url(#arrow); }
+    .return { stroke-dasharray: 5 4; }
+    .rule { stroke: #374151; stroke-width: 1; }
+    ]]></style><marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#d1d5db"/></marker></defs><rect width="720" height="592" fill="#0a0a0a"/><line x1="360" y1="124" x2="360" y2="196" class="edge"/><path d="M304 284 V320 Q304 328 296 328 H188 Q180 328 180 336 V372" class="edge"/><path d="M416 284 V320 Q416 328 424 328 H532 Q540 328 540 336 V372" class="edge"/><rect x="378" y="156" width="76" height="16" fill="#0a0a0a"/><text x="416" y="166" class="edge-label" text-anchor="middle">CALL</text><rect x="180" y="44" width="360" height="80" rx="6" class="box"/><text x="360" y="70" class="name" text-anchor="middle">Existing Tests</text><text x="360" y="94" class="sub" text-anchor="middle">Numbers · Plus · Spaces · Positioned error</text><rect x="180" y="196" width="360" height="88" rx="6" class="focal"/><text x="360" y="224" class="name" text-anchor="middle">Public Contract</text><text x="360" y="248" class="name" text-anchor="middle">tokenize(source)</text><text x="360" y="268" class="sub" text-anchor="middle">Same tokens or same error</text><rect x="40" y="372" width="280" height="104" rx="6" class="box"/><text x="60" y="394" class="tag" text-anchor="start">BEFORE REFACTORING</text><text x="180" y="422" class="name" text-anchor="middle">Read number inline in loop</text><text x="180" y="450" class="sub" text-anchor="middle">Value and position updated in place</text><rect x="400" y="372" width="280" height="104" rx="6" class="box"/><text x="420" y="394" class="tag" text-anchor="start">AFTER REFACTORING</text><text x="540" y="422" class="name" text-anchor="middle">Call read_number</text><text x="540" y="450" class="sub" text-anchor="middle">Returns value and updated position</text><line x1="40" y1="516" x2="680" y2="516" class="rule"/><text x="40" y="540" class="legend" text-anchor="start">Bottom boxes: alternative implementations of one function.</text><text x="40" y="560" class="legend" text-anchor="start">Both cases run against the exact same tests.</text></svg>

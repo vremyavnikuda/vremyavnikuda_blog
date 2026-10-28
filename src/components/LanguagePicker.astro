@@ -40,7 +40,7 @@ function getPathForLang(targetLang: string) {
 <div class="relative inline-block text-left lang-picker">
   <button
     type="button"
-    class="lang-picker-button inline-flex items-center gap-2 px-3 py-2 text-sm rounded hover:bg-[var(--color-bg-secondary)] transition-colors"
+    class="lang-picker-button inline-flex items-center gap-2 px-3 py-2 text-sm rounded-sm hover:bg-(--color-bg-secondary) transition-colors"
     aria-expanded="false"
     aria-haspopup="true"
   >
@@ -51,7 +51,7 @@ function getPathForLang(targetLang: string) {
   </button>
 
   <div
-    class="lang-picker-menu hidden absolute right-0 mt-2 w-32 rounded bg-[var(--color-bg-secondary)] border border-[var(--color-border)] shadow-lg z-50"
+    class="lang-picker-menu hidden absolute right-0 mt-2 w-32 rounded-sm bg-(--color-bg-secondary) border border-(--color-border) shadow-lg z-50"
     role="menu"
     aria-orientation="vertical"
   >

@@ -21,13 +21,13 @@ const { page } = Astro.props;
   <div class="max-w-3xl mx-auto px-4 py-16">
     <header class="mb-12">
       <h1 class="text-4xl font-bold mb-4">Blog</h1>
-      <p class="text-xl text-[var(--color-text-secondary)]">
+      <p class="text-xl text-(--color-text-secondary)">
         Thoughts on software development, programming, and technology
       </p>
     </header>
 
     {page.data.length === 0 ? (
-      <p class="text-[var(--color-text-secondary)]">No posts yet. Check back soon!</p>
+      <p class="text-(--color-text-secondary)">No posts yet. Check back soon!</p>
     ) : (
       <div class="space-y-12">
         {page.data.map((post) => (
@@ -41,7 +41,7 @@ const { page } = Astro.props;
                   {post.data.issueNumber && <span>Issue {post.data.issueNumber}</span>}
                 </div>
               )}
-              <time class="text-sm text-[var(--color-text-secondary)]">
+              <time class="text-sm text-(--color-text-secondary)">
                 {post.data.pubDate.toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
@@ -51,7 +51,7 @@ const { page } = Astro.props;
               <h2 class="text-3xl font-semibold mt-2 mb-3 group-hover:text-primary-400 transition-colors">
                 {post.data.title}
               </h2>
-              <p class="text-[var(--color-text-secondary)] mb-4">
+              <p class="text-(--color-text-secondary) mb-4">
                 {post.data.description}
               </p>
             </a>
@@ -61,11 +61,11 @@ const { page } = Astro.props;
     )}
 
     {page.lastPage > 1 && (
-      <nav class="mt-16 flex items-center justify-between border-t border-[var(--color-border)] pt-8">
+      <nav class="mt-16 flex items-center justify-between border-t border-(--color-border) pt-8">
         {page.url.prev
           ? <a href={page.url.prev} class="text-primary-400 hover:underline">← Newer</a>
           : <span />}
-        <span class="text-sm text-[var(--color-text-secondary)]">{page.currentPage} / {page.lastPage}</span>
+        <span class="text-sm text-(--color-text-secondary)">{page.currentPage} / {page.lastPage}</span>
         {page.url.next
           ? <a href={page.url.next} class="text-primary-400 hover:underline">Older →</a>
           : <span />}

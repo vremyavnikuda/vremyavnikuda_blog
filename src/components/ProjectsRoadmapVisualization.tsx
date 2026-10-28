@@ -470,8 +470,8 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
   return (
     <div className="grid grid-cols-12 gap-4">
       {roots.length === 0 ? (
-        <div className="col-span-12 rounded-2xl border border-cyan-300/20 bg-white/[0.03] p-8 text-center">
-          <p className="text-sm text-[var(--color-text-secondary)]">{t.noNodesMatch}</p>
+        <div className="col-span-12 rounded-2xl border border-cyan-300/20 bg-white/3 p-8 text-center">
+          <p className="text-sm text-(--color-text-secondary)">{t.noNodesMatch}</p>
         </div>
       ) : (
         <div className="col-span-12 grid grid-cols-12 gap-4">
@@ -691,9 +691,9 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
           style={inspectorPanelStyle}
         >
           <div className="space-y-3">
-            <section className="rounded-2xl border border-cyan-300/20 bg-white/[0.03] p-4">
+            <section className="rounded-2xl border border-cyan-300/20 bg-white/3 p-4">
               {!selectedProjectTitle && (
-                <p className="text-sm text-[var(--color-text-secondary)]">
+                <p className="text-sm text-(--color-text-secondary)">
                   {lang === 'ja'
                     ? 'ノードを選択すると、ここに詳細が表示されます。'
                     : 'Select a node to inspect details.'}
@@ -701,7 +701,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
               )}
 
               {selectedProjectTitle && detailsState === 'loading' && !selectedProject && (
-                <p className="text-sm text-[var(--color-text-secondary)]">
+                <p className="text-sm text-(--color-text-secondary)">
                   {lang === 'ja' ? 'プロジェクト情報を読み込み中...' : 'Loading project details...'}
                 </p>
               )}
@@ -732,7 +732,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
                     )}
                   </div>
 
-                  <p className="text-sm text-[var(--color-text-secondary)]">{selectedProject.description}</p>
+                  <p className="text-sm text-(--color-text-secondary)">{selectedProject.description}</p>
 
                   <div className="flex flex-wrap items-center gap-3 text-sm">
                     {selectedProject.github && (
@@ -762,7 +762,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
             </section>
 
             {selectedProject?.roadmap && selectedProject.roadmap.length > 0 && (
-              <section className="rounded-2xl border border-cyan-300/20 bg-white/[0.03] p-4">
+              <section className="rounded-2xl border border-cyan-300/20 bg-white/3 p-4">
                 <h4 className="mb-3 text-sm font-semibold text-primary-300">
                   {lang === 'ja' ? 'バージョン履歴' : 'Version Timeline'}
                 </h4>
@@ -814,13 +814,13 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
                         {isExpanded && (
                           <div className="border-t border-cyan-300/15 px-3 pb-3 pt-2">
                             {entry.items && entry.items.length > 0 ? (
-                              <ul className="space-y-1 text-sm text-[var(--color-text-secondary)]">
+                              <ul className="space-y-1 text-sm text-(--color-text-secondary)">
                                 {entry.items.map((item, index) => (
                                   <li key={`${entry.version}-${index}`}>• {item}</li>
                                 ))}
                               </ul>
                             ) : (
-                              <p className="text-sm text-[var(--color-text-secondary)]">
+                              <p className="text-sm text-(--color-text-secondary)">
                                 {lang === 'ja'
                                   ? 'このバージョンの詳細項目はありません。'
                                   : 'No detailed items for this version.'}
@@ -836,7 +836,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
             )}
 
             {relatedProjects && relatedProjects.length > 0 && (
-              <section className="rounded-2xl border border-cyan-300/20 bg-white/[0.03] p-4">
+              <section className="rounded-2xl border border-cyan-300/20 bg-white/3 p-4">
                 <h4 className="mb-2 text-sm font-semibold text-primary-300">
                   {lang === 'ja' ? '関連プロジェクト' : 'Related Projects'}
                 </h4>
@@ -845,7 +845,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
                     <button
                       key={entry.id}
                       onClick={() => selectProject(entry.title)}
-                      className="rounded-full border border-cyan-300/20 px-3 py-1 text-xs text-[var(--color-text-secondary)] transition hover:border-primary-400/60 hover:text-primary-300"
+                      className="rounded-full border border-cyan-300/20 px-3 py-1 text-xs text-(--color-text-secondary) transition hover:border-primary-400/60 hover:text-primary-300"
                     >
                       {entry.title}
                     </button>

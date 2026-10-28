@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import { useTranslations, getLocalizedPath } from '../../i18n/utils';
 
 export async function getStaticPaths() {
@@ -9,7 +9,7 @@ export async function getStaticPaths() {
     .filter(post => !post.data.draft && post.data.lang === 'ja')
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
   return posts.map((post, i) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post, newer: posts[i - 1], older: posts[i + 1] },
   }));
 }
@@ -18,12 +18,12 @@ type Post = CollectionEntry<'blog'>;
 type Props = { post: Post; newer?: Post; older?: Post };
 
 const { post, newer, older } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 // ponytail: MathJax is ~1MB from a CDN; only a couple of posts have formulas
-const hasMath = post.body.includes('$');
+const hasMath = post.body?.includes('$') ?? false;
 const t = useTranslations('ja');
 const lang = 'ja';
-const href = (p: Post) => getLocalizedPath(`/blog/${p.slug}`, lang);
+const href = (p: Post) => getLocalizedPath(`/blog/${p.id}`, lang);
 ---
 
 <BaseLayout 
@@ -52,7 +52,7 @@ const href = (p: Post) => getLocalizedPath(`/blog/${p.slug}`, lang);
   )}
   <article class="max-w-3xl mx-auto px-4 py-16">
     <header class="mb-12">
-      <time class="text-sm text-[var(--color-text-secondary)]">
+      <time class="text-sm text-(--color-text-secondary)">
         {post.data.pubDate.toLocaleDateString('ja-JP', {
           year: 'numeric',
           month: 'long',
@@ -68,7 +68,7 @@ const href = (p: Post) => getLocalizedPath(`/blog/${p.slug}`, lang);
       <Content />
     </div>
 
-    <footer class="mt-16 pt-8 border-t border-[var(--color-border)]">
+    <footer class="mt-16 pt-8 border-t border-(--color-border)">
       <a 
         href={getLocalizedPath('/blog', lang)}
         class="inline-flex items-center text-primary-400 hover:underline"
@@ -79,13 +79,13 @@ const href = (p: Post) => getLocalizedPath(`/blog/${p.slug}`, lang);
     <nav class="mt-8 grid gap-4 sm:grid-cols-2">
       {newer ? (
         <a href={href(newer)} class="glass-panel rounded-xl px-4 py-3 hover:border-primary-400/60 transition-colors">
-          <span class="block text-xs text-[var(--color-text-secondary)]">新しい記事</span>
+          <span class="block text-xs text-(--color-text-secondary)">新しい記事</span>
           <span class="block text-primary-400">{newer.data.title}</span>
         </a>
       ) : <div class="hidden sm:block" />}
       {older && (
         <a href={href(older)} class="glass-panel rounded-xl px-4 py-3 text-right hover:border-primary-400/60 transition-colors sm:col-start-2">
-          <span class="block text-xs text-[var(--color-text-secondary)]">古い記事</span>
+          <span class="block text-xs text-(--color-text-secondary)">古い記事</span>
           <span class="block text-primary-400">{older.data.title}</span>
         </a>
       )}

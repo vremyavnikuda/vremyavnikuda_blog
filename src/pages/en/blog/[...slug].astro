@@ -1,10 +1,10 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 // The URL slug drops the -en suffix, so neighbour links must go through the
 // same transform or they 404.
-const href = (p: CollectionEntry<'blog'>) => `/en/blog/${p.slug.replace(/-en$/, '')}`;
+const href = (p: CollectionEntry<'blog'>) => `/en/blog/${p.id.replace(/-en$/, '')}`;
 
 export async function getStaticPaths() {
   // Same order as the blog list, so newer/older match what the reader just scrolled.
@@ -12,7 +12,7 @@ export async function getStaticPaths() {
     .filter(post => !post.data.draft && post.data.lang === 'en')
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
   return posts.map((post, i) => ({
-    params: { slug: post.slug.replace(/-en$/, '') },
+    params: { slug: post.id.replace(/-en$/, '') },
     props: { post, newer: posts[i - 1], older: posts[i + 1] },
   }));
 }
@@ -21,9 +21,9 @@ type Post = CollectionEntry<'blog'>;
 type Props = { post: Post; newer?: Post; older?: Post };
 
 const { post, newer, older } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 // ponytail: MathJax is ~1MB from a CDN; only a couple of posts have formulas
-const hasMath = post.body.includes('$');
+const hasMath = post.body?.includes('$') ?? false;
 ---
 
 <BaseLayout 
@@ -53,7 +53,7 @@ const hasMath = post.body.includes('$');
   )}
   <article class="max-w-3xl mx-auto px-4 py-16">
     <header class="mb-12">
-      <time class="text-sm text-[var(--color-text-secondary)]">
+      <time class="text-sm text-(--color-text-secondary)">
         {post.data.pubDate.toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'long',
@@ -65,7 +65,7 @@ const hasMath = post.body.includes('$');
       </h1>
 
       {post.data.source === 'twir' && post.data.sourceUrl && (
-        <div class="glass-panel rounded-2xl px-5 py-4 text-sm text-[var(--color-text-secondary)]">
+        <div class="glass-panel rounded-2xl px-5 py-4 text-sm text-(--color-text-secondary)">
           <p class="mb-2 text-xs uppercase tracking-[0.2em] text-primary-300">Imported source</p>
           <p class="mb-2">
             Imported from <a href={post.data.sourceUrl}>This Week in Rust</a>
@@ -83,7 +83,7 @@ const hasMath = post.body.includes('$');
       <Content />
     </div>
 
-    <footer class="mt-16 pt-8 border-t border-[var(--color-border)]">
+    <footer class="mt-16 pt-8 border-t border-(--color-border)">
       <a 
         href="/en/blog" 
         class="inline-flex items-center text-primary-400 hover:underline"
@@ -94,13 +94,13 @@ const hasMath = post.body.includes('$');
     <nav class="mt-8 grid gap-4 sm:grid-cols-2">
       {newer ? (
         <a href={href(newer)} class="glass-panel rounded-xl px-4 py-3 hover:border-primary-400/60 transition-colors">
-          <span class="block text-xs text-[var(--color-text-secondary)]">Newer</span>
+          <span class="block text-xs text-(--color-text-secondary)">Newer</span>
           <span class="block text-primary-400">{newer.data.title}</span>
         </a>
       ) : <div class="hidden sm:block" />}
       {older && (
         <a href={href(older)} class="glass-panel rounded-xl px-4 py-3 text-right hover:border-primary-400/60 transition-colors sm:col-start-2">
-          <span class="block text-xs text-[var(--color-text-secondary)]">Older</span>
+          <span class="block text-xs text-(--color-text-secondary)">Older</span>
           <span class="block text-primary-400">{older.data.title}</span>
         </a>
       )}

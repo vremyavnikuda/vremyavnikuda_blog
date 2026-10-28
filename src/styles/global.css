@@ -1,6 +1,296 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --font-sans:
+    Cascadia Code, Cascadia Mono, BIZ UDGothic, Yu Gothic,
+    Hiragino Kaku Gothic ProN, Noto Sans CJK JP, monospace;
+  --font-mono:
+    Cascadia Code, Cascadia Mono, BIZ UDGothic, Yu Gothic,
+    Hiragino Kaku Gothic ProN, Noto Sans CJK JP, monospace;
+
+  --color-primary-50: #ecfeff;
+  --color-primary-100: #cffafe;
+  --color-primary-200: #a5f3fc;
+  --color-primary-300: #67e8f9;
+  --color-primary-400: #22d3ee;
+  --color-primary-500: #06b6d4;
+  --color-primary-600: #0891b2;
+  --color-primary-700: #0e7490;
+  --color-primary-800: #155e75;
+  --color-primary-900: #164e63;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility glass-header {
+  background: linear-gradient(
+    145deg,
+    rgba(10, 14, 26, 0.52),
+    rgba(8, 47, 73, 0.22)
+  );
+  box-shadow:
+    0 12px 30px rgba(2, 6, 23, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(16px) saturate(135%);
+  backdrop-filter: blur(16px) saturate(135%);
+}
+
+@utility glass-toolbar {
+  border: 1px solid rgba(34, 211, 238, 0.24);
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.4),
+    rgba(8, 47, 73, 0.18)
+  );
+  box-shadow:
+    0 18px 40px rgba(2, 6, 23, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  backdrop-filter: blur(16px) saturate(130%);
+}
+
+@utility glass-overlay {
+  background: rgba(2, 6, 23, 0.42);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
+  backdrop-filter: blur(14px) saturate(125%);
+}
+
+@utility glass-panel {
+  border: 1px solid rgba(34, 211, 238, 0.28);
+  background: linear-gradient(
+    145deg,
+    rgba(15, 23, 42, 0.58),
+    rgba(8, 47, 73, 0.24)
+  );
+  box-shadow:
+    0 24px 64px rgba(2, 6, 23, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  backdrop-filter: blur(18px) saturate(130%);
+}
+
+@utility roadmap-canvas-viewport {
+  @media (max-width: 1023px) {
+    &[data-ready='false'] {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &[data-ready='true'] {
+      opacity: 1;
+      transition: opacity 0.12s ease;
+    }
+  }
+}
+
+@utility ui-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(34, 211, 238, 0.55) rgba(15, 23, 42, 0.4);
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.35);
+    border-radius: 9999px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      rgba(34, 211, 238, 0.75),
+      rgba(6, 182, 212, 0.5)
+    );
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      rgba(34, 211, 238, 0.95),
+      rgba(6, 182, 212, 0.75)
+    );
+    background-clip: content-box;
+  }
+}
+
+@utility prose {
+  @apply max-w-none;
+
+  & a {
+    @apply text-primary-400 hover:text-primary-300 hover:underline;
+  }
+
+  & code {
+    @apply bg-(--color-bg-secondary) px-1.5 py-0.5 rounded-sm text-sm;
+  }
+
+  & pre {
+    @apply bg-[#1f1f28] p-4 rounded-lg overflow-x-auto border border-[#2a2a37];
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  }
+
+  & pre code {
+    @apply bg-transparent px-0 py-0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  & h1 {
+    @apply text-4xl font-bold text-(--color-text-primary) mt-8 mb-4;
+  }
+
+  & h2 {
+    @apply text-3xl font-bold text-(--color-text-primary) mt-8 mb-4;
+  }
+
+  & h3 {
+    @apply text-2xl font-bold text-(--color-text-primary) mt-6 mb-3;
+  }
+
+  & h4 {
+    @apply text-xl font-bold text-(--color-text-primary) mt-6 mb-3;
+  }
+
+  & h5 {
+    @apply text-lg font-bold text-(--color-text-primary) mt-4 mb-2;
+  }
+
+  & h6 {
+    @apply text-lg font-bold text-(--color-text-primary) mt-4 mb-2;
+  }
+
+  & p {
+    @apply text-(--color-text-secondary) mb-4 leading-relaxed;
+  }
+
+  & ul {
+    @apply mb-4 ml-6;
+  }
+
+  & ol {
+    @apply mb-4 ml-6;
+  }
+
+  & li {
+    @apply text-(--color-text-secondary) mb-2;
+  }
+
+  & blockquote {
+    @apply border-l-4 border-primary-400 pl-4 italic my-4;
+  }
+
+  & strong {
+    @apply font-bold text-(--color-text-primary);
+  }
+
+  & em {
+    @apply italic;
+  }
+
+  & table {
+    @apply my-6 w-full text-sm;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: rgba(15, 23, 42, 0.35);
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  & thead {
+    background: rgba(6, 182, 212, 0.14);
+  }
+
+  & th {
+    @apply px-3 py-2 font-semibold;
+    color: var(--color-text-primary);
+    border-bottom: 1px solid rgba(34, 211, 238, 0.28);
+  }
+
+  & td {
+    @apply px-3 py-2 align-top;
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid rgba(34, 211, 238, 0.14);
+  }
+
+  & th {
+    text-align: left;
+  }
+
+  & td {
+    text-align: left;
+  }
+
+  & th[align='right'] {
+    text-align: right;
+  }
+
+  & td[align='right'] {
+    text-align: right;
+  }
+
+  & th[align='center'] {
+    text-align: center;
+  }
+
+  & td[align='center'] {
+    text-align: center;
+  }
+
+  & tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  & tbody tr:nth-child(even) {
+    background: rgba(15, 23, 42, 0.22);
+  }
+
+  @media (max-width: 768px) {
+    & table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+      font-size: 0.82rem;
+    }
+  }
+}
+
+@utility article-prose {
+  /* ponytail: justified text needs hyphenation to look right, and the body
+     font is monospace, so it never will. Left-aligned instead. */
+  & p {
+    text-align: left;
+  }
+  & li {
+    text-align: left;
+  }
+  & blockquote {
+    text-align: left;
+  }
+}
 
 @layer base {
   /* Variable weight 200-700 in one file. local() first, so anyone who already
@@ -33,7 +323,7 @@
   }
 
   body {
-    @apply text-[var(--color-text-primary)] bg-[var(--color-bg-primary)];
+    @apply text-(--color-text-primary) bg-(--color-bg-primary);
     @apply antialiased;
     font-family: 'Cascadia Code',
       'Cascadia Mono',
@@ -52,7 +342,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid theme('colors.primary.400');
+    outline: 2px solid var(--color-primary-400);
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -75,220 +365,6 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
-    }
-  }
-}
-
-@layer components {
-  .glass-header {
-    background: linear-gradient(145deg, rgba(10, 14, 26, 0.52), rgba(8, 47, 73, 0.22));
-    box-shadow:
-      0 12px 30px rgba(2, 6, 23, 0.35),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(16px) saturate(135%);
-    -webkit-backdrop-filter: blur(16px) saturate(135%);
-  }
-
-  .glass-toolbar {
-    border: 1px solid rgba(34, 211, 238, 0.24);
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.4), rgba(8, 47, 73, 0.18));
-    box-shadow:
-      0 18px 40px rgba(2, 6, 23, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.07);
-    backdrop-filter: blur(16px) saturate(130%);
-    -webkit-backdrop-filter: blur(16px) saturate(130%);
-  }
-
-  .glass-overlay {
-    background: rgba(2, 6, 23, 0.42);
-    backdrop-filter: blur(14px) saturate(125%);
-    -webkit-backdrop-filter: blur(14px) saturate(125%);
-  }
-
-  .glass-panel {
-    border: 1px solid rgba(34, 211, 238, 0.28);
-    background:
-      linear-gradient(145deg, rgba(15, 23, 42, 0.58), rgba(8, 47, 73, 0.24));
-    box-shadow:
-      0 24px 64px rgba(2, 6, 23, 0.5),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(18px) saturate(130%);
-    -webkit-backdrop-filter: blur(18px) saturate(130%);
-  }
-
-  @media (max-width: 1023px) {
-    .roadmap-canvas-viewport[data-ready='false'] {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .roadmap-canvas-viewport[data-ready='true'] {
-      opacity: 1;
-      transition: opacity 0.12s ease;
-    }
-  }
-
-  .ui-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(34, 211, 238, 0.55) rgba(15, 23, 42, 0.4);
-  }
-
-  .ui-scrollbar::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-
-  .ui-scrollbar::-webkit-scrollbar-track {
-    background: rgba(15, 23, 42, 0.35);
-    border-radius: 9999px;
-  }
-
-  .ui-scrollbar::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(34, 211, 238, 0.75), rgba(6, 182, 212, 0.5));
-    border-radius: 9999px;
-    border: 2px solid transparent;
-    background-clip: content-box;
-  }
-
-  .ui-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, rgba(34, 211, 238, 0.95), rgba(6, 182, 212, 0.75));
-    background-clip: content-box;
-  }
-
-  .prose {
-    @apply max-w-none;
-  }
-
-  .prose a {
-    @apply text-primary-400 hover:text-primary-300 hover:underline;
-  }
-
-  .prose code {
-    @apply bg-[var(--color-bg-secondary)] px-1.5 py-0.5 rounded text-sm;
-  }
-
-  .prose pre {
-    @apply bg-[#1f1f28] p-4 rounded-lg overflow-x-auto border border-[#2a2a37];
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-  }
-
-  .prose pre code {
-    @apply bg-transparent px-0 py-0;
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
-
-  .prose h1 {
-    @apply text-4xl font-bold text-[var(--color-text-primary)] mt-8 mb-4;
-  }
-
-  .prose h2 {
-    @apply text-3xl font-bold text-[var(--color-text-primary)] mt-8 mb-4;
-  }
-
-  .prose h3 {
-    @apply text-2xl font-bold text-[var(--color-text-primary)] mt-6 mb-3;
-  }
-
-  .prose h4 {
-    @apply text-xl font-bold text-[var(--color-text-primary)] mt-6 mb-3;
-  }
-
-  .prose h5,
-  .prose h6 {
-    @apply text-lg font-bold text-[var(--color-text-primary)] mt-4 mb-2;
-  }
-
-  .prose p {
-    @apply text-[var(--color-text-secondary)] mb-4 leading-relaxed;
-  }
-
-  .prose ul,
-  .prose ol {
-    @apply mb-4 ml-6;
-  }
-
-  .prose li {
-    @apply text-[var(--color-text-secondary)] mb-2;
-  }
-
-  .prose blockquote {
-    @apply border-l-4 border-primary-400 pl-4 italic my-4;
-  }
-
-  .prose strong {
-    @apply font-bold text-[var(--color-text-primary)];
-  }
-
-  .prose em {
-    @apply italic;
-  }
-
-  /* ponytail: justified text needs hyphenation to look right, and the body
-     font is monospace, so it never will. Left-aligned instead. */
-  .article-prose p,
-  .article-prose li,
-  .article-prose blockquote {
-    text-align: left;
-  }
-
-  .prose table {
-    @apply my-6 w-full text-sm;
-    border-collapse: separate;
-    border-spacing: 0;
-    background: rgba(15, 23, 42, 0.35);
-    border: 1px solid rgba(34, 211, 238, 0.22);
-    border-radius: 0.75rem;
-    overflow: hidden;
-  }
-
-  .prose thead {
-    background: rgba(6, 182, 212, 0.14);
-  }
-
-  .prose th {
-    @apply px-3 py-2 font-semibold;
-    color: var(--color-text-primary);
-    border-bottom: 1px solid rgba(34, 211, 238, 0.28);
-  }
-
-  .prose td {
-    @apply px-3 py-2 align-top;
-    color: var(--color-text-secondary);
-    border-bottom: 1px solid rgba(34, 211, 238, 0.14);
-  }
-
-  .prose th,
-  .prose td {
-    text-align: left;
-  }
-
-  .prose th[align="right"],
-  .prose td[align="right"] {
-    text-align: right;
-  }
-
-  .prose th[align="center"],
-  .prose td[align="center"] {
-    text-align: center;
-  }
-
-  .prose tbody tr:last-child td {
-    border-bottom: none;
-  }
-
-  .prose tbody tr:nth-child(even) {
-    background: rgba(15, 23, 42, 0.22);
-  }
-
-  @media (max-width: 768px) {
-    .prose table {
-      display: block;
-      width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      white-space: nowrap;
-      font-size: 0.82rem;
     }
   }
 }

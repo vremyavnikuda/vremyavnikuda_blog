@@ -14,7 +14,7 @@ const detailsUrl = `/projects-data/${lang}.json`;
   <div class="w-full px-2 py-4">
     <h1 class="sr-only">Projects</h1>
     {projects.length === 0 ? (
-      <p class="text-[var(--color-text-secondary)]">Projects coming soon!</p>
+      <p class="text-(--color-text-secondary)">Projects coming soon!</p>
     ) : (
       <ProjectsRoadmapVisualization projects={projects} detailsUrl={detailsUrl} lang={lang} client:load />
     )}

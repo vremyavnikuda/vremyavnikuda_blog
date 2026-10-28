@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Personal developer blog with Astro + Three.js",
   "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -33,18 +36,18 @@
   },
   "homepage": "https://github.com/vremyavnikuda/vremyavnikuda_blog#readme",
   "dependencies": {
-    "@astrojs/mdx": "^4.3.12",
-    "@astrojs/react": "^4.4.2",
+    "@astrojs/mdx": "^8.1.2",
+    "@astrojs/react": "^7.1.2",
     "@astrojs/rss": "^4.0.19",
-    "@astrojs/sitemap": "^3.6.0",
-    "@astrojs/tailwind": "^6.0.2",
-    "astro": "^5.16.0",
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.4.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "tailwindcss": "^3.4.18",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.5"
+    "@astrojs/check": "^0.9.12"
   }
 }

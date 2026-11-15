@@ -29,6 +29,7 @@ const href = (p: Post) => getLocalizedPath(`/blog/${p.id}`, lang);
 <BaseLayout 
   title={`${post.data.title} - vremyavnikuda`}
   description={post.data.description}
+  canonicalUrl={post.data.sourceUrl}
   ogType="article"
   publishedTime={post.data.pubDate}
   modifiedTime={post.data.updatedDate}
@@ -62,6 +63,20 @@ const href = (p: Post) => getLocalizedPath(`/blog/${p.id}`, lang);
       <h1 class="text-4xl md:text-5xl font-bold mt-3 mb-6">
         {post.data.title}
       </h1>
+
+      {post.data.source === 'twir' && post.data.sourceUrl && (
+        <div class="glass-panel rounded-2xl px-5 py-4 text-sm text-(--color-text-secondary)">
+          <p class="mb-2 text-xs uppercase tracking-[0.2em] text-primary-300">インポート元の情報</p>
+          <p class="mb-2">
+            <a href={post.data.sourceUrl}>This Week in Rust</a>
+            {post.data.issueNumber && ` 第${post.data.issueNumber}号`}よりインポート。この記事はローカルのブログレイアウトに合わせて表示しています。
+          </p>
+          {post.data.license && <p>ライセンス: {post.data.license}</p>}
+          <p class="mt-2">
+            <a href={post.data.sourceUrl}>元の記事を開く →</a>
+          </p>
+        </div>
+      )}
     </header>
 
     <div class="prose prose-lg max-w-none article-prose">

@@ -12,7 +12,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${
   <rect width="${WIDTH}" height="${HEIGHT}" fill="#0a0a0a"/>
   <rect x="0" y="0" width="${WIDTH}" height="10" fill="#22d3ee"/>
   <text x="90" y="300" font-family="${MONO}" font-size="82" font-weight="700" fill="#f9fafb">vremyavnikuda</text>
-  <text x="90" y="374" font-family="${MONO}" font-size="38" fill="#22d3ee">systems software &#183; rust &#183; linux</text>
+  <text x="90" y="374" font-family="Noto Sans JP, Meiryo, ${MONO}" font-size="38" fill="#22d3ee">システムソフトウェア &#183; Rust &#183; Linux</text>
   <text x="90" y="548" font-family="${MONO}" font-size="30" fill="#6b7280">vremyavnikuda.tech</text>
 </svg>`;
 

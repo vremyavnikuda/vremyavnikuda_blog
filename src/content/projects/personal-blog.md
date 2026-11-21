@@ -1,6 +1,6 @@
 ---
 title: "Personal Blog"
-description: "Astroで構築された個人ブログ、日本語と英語のサポート"
+description: "Astroで構築された日本語の個人ブログ"
 github: "https://github.com/vremyavnikuda/vremyavnikuda_blog"
 link: "https://vremyavnikuda.com"
 featured: true
@@ -15,9 +15,9 @@ roadmap:
     releaseStatus: "release"
     items:
       - "Astroフレームワークでの実装"
-      - "日本語と英語のバイリンガルサポート"
+      - "日本語で記事を公開"
       - "D3.jsによるプロジェクトロードマップ視覚化"
       - "レスポンシブデザイン"
 ---
 
-Astroフレームワークで構築された個人ブログ。日本語と英語のバイリンガルサポート、D3.jsによるインタラクティブなプロジェクトロードマップ視覚化、レスポンシブデザインを特徴としています。
+Astroフレームワークで構築された日本語の個人ブログ。インタラクティブなプロジェクトロードマップとレスポンシブデザインを備えています。

@@ -18,13 +18,6 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   site: 'https://vremyavnikuda.tech',
-  i18n: {
-    defaultLocale: 'ja',
-    locales: ['ja', 'en'],
-    routing: {
-      prefixDefaultLocale: false,
-    },
-  },
   markdown: {
     shikiConfig: {
       theme: 'kanagawa-wave',

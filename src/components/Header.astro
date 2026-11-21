@@ -1,16 +1,12 @@
 ---
-import LanguagePicker from './LanguagePicker.astro';
-import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/utils';
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+import { t } from '../i18n/ui';
 
 const navLinks = [
-  { href: getLocalizedPath('/', lang), label: t('nav.home') },
-  { href: getLocalizedPath('/blog', lang), label: t('nav.blog') },
-  { href: getLocalizedPath('/projects', lang), label: t('nav.projects') },
-  { href: getLocalizedPath('/achievements', lang), label: t('nav.achievements') },
-  { href: getLocalizedPath('/about', lang), label: t('nav.about') },
+  { href: '/', label: t('nav.home') },
+  { href: '/blog', label: t('nav.blog') },
+  { href: '/projects', label: t('nav.projects') },
+  { href: '/achievements', label: t('nav.achievements') },
+  { href: '/about', label: t('nav.about') },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -19,13 +15,12 @@ const currentPath = Astro.url.pathname;
 <header class="glass-header sticky top-0 z-50 border-b border-cyan-300/20">
   <nav class="max-w-3xl mx-auto px-4 py-4">
     <div class="flex items-center justify-between">
-      <a href={getLocalizedPath('/', lang)} class="text-xl font-bold hover:text-primary-400 transition-colors">
+      <a href="/" class="text-xl font-bold hover:text-primary-400 transition-colors">
         vremyavnikuda
       </a>
       
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center gap-6">
-        <LanguagePicker />
         <ul class="flex gap-6">
         {navLinks.map(({ href, label }) => (
           <li>
@@ -45,13 +40,12 @@ const currentPath = Astro.url.pathname;
 
       <!-- Mobile Navigation -->
       <div class="md:hidden flex items-center gap-4">
-        <LanguagePicker />
         <button
           id="mobile-menu-button"
           type="button"
           class="inline-flex items-center justify-center p-2 rounded-md hover:bg-(--color-bg-secondary) transition-colors"
           aria-expanded="false"
-          aria-label="Toggle navigation menu"
+          aria-label="ナビゲーションメニューを開閉"
         >
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />

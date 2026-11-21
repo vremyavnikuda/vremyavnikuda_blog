@@ -1,4 +1,4 @@
-import { mkdir, readdir, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -9,6 +9,7 @@ const TWIR_FEED_URL = 'https://this-week-in-rust.org/atom.xml';
 const TWIR_ARCHIVE_URL = 'https://this-week-in-rust.org/blog/archives/index.html';
 const TWIR_SOURCE_NAME = 'twir';
 const TWIR_LICENSE = 'CC BY-SA 4.0';
+const FIRST_TRANSLATION_ISSUE = 679;
 
 function decodeEntity(entity) {
   const namedEntities = {
@@ -33,11 +34,15 @@ function decodeEntity(entity) {
   return namedEntities[entity] ?? `&${entity};`;
 }
 
+function decodeXmlLayer(input) {
+  return input.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (_, entity) => decodeEntity(entity));
+}
+
 export function decodeXmlEntities(input) {
   let decoded = input;
 
   for (let index = 0; index < 4; index += 1) {
-    const next = decoded.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (_, entity) => decodeEntity(entity));
+    const next = decodeXmlLayer(decoded);
 
     if (next === decoded) {
       return next;
@@ -69,13 +74,6 @@ function issueNumberFromString(value) {
   return match ? Number.parseInt(match[1], 10) : Number.NaN;
 }
 
-function normalizeIssueRecord(issue, discoverySource) {
-  return {
-    ...issue,
-    discoverySource,
-  };
-}
-
 export function parseAtomFeed(xml) {
   return Array.from(xml.matchAll(/<entry\b[^>]*>([\s\S]*?)<\/entry>/gi), (match) => {
     const block = match[1] ?? '';
@@ -90,8 +88,7 @@ export function parseAtomFeed(xml) {
       published: extractTagContent(block, 'published'),
       updated: extractTagContent(block, 'updated') || extractTagContent(block, 'published'),
       externalId: decodeXmlEntities(extractTagContent(block, 'id')) || link,
-      summaryHtml: decodeXmlEntities(extractTagContent(block, 'summary')),
-      contentHtml: decodeXmlEntities(extractTagContent(block, 'content')),
+      contentHtml: decodeXmlLayer(extractTagContent(block, 'content')),
     };
   }).filter((issue) => Number.isFinite(issue.issueNumber) && issue.link);
 }
@@ -108,46 +105,21 @@ export function parseArchiveIssues(html) {
   ).sort((left, right) => left.issueNumber - right.issueNumber);
 }
 
-export function planIssuesToImport({ existingIssueNumbers, feedEntries, archiveEntries, bootstrapCount }) {
-  const feedMap = new Map(feedEntries.map((issue) => [issue.issueNumber, normalizeIssueRecord(issue, 'feed')]));
-  const archiveMap = new Map(archiveEntries.map((issue) => [issue.issueNumber, normalizeIssueRecord(issue, 'archive')]));
-  const remoteIssueNumbers = [...new Set([...feedMap.keys(), ...archiveMap.keys()])].sort((left, right) => left - right);
-
-  if (remoteIssueNumbers.length === 0) {
-    return [];
-  }
-
-  if (existingIssueNumbers.size === 0) {
-    if (bootstrapCount <= 0) {
-      return [];
+function mergeIssues(feedEntries, archiveEntries) {
+  const issues = new Map();
+  for (const issue of [...archiveEntries, ...feedEntries]) {
+    const match = issue.link.match(/^(?:https:\/\/this-week-in-rust\.org)?(\/blog\/\d{4}\/\d{2}\/\d{2}\/this-week-in-rust-(\d+)\/?)$/);
+    if (match && Number(match[2]) === issue.issueNumber) {
+      issues.set(issue.issueNumber, { ...issue, link: new URL(match[1], TWIR_FEED_URL).href });
     }
-
-    return remoteIssueNumbers
-      .slice(-bootstrapCount)
-      .map((issueNumber) => feedMap.get(issueNumber) ?? archiveMap.get(issueNumber))
-      .filter(Boolean);
   }
+  return issues;
+}
 
-  const latestExistingIssue = Math.max(...existingIssueNumbers);
-  const latestRemoteIssue = remoteIssueNumbers[remoteIssueNumbers.length - 1];
-
-  if (latestRemoteIssue <= latestExistingIssue) {
-    return [];
-  }
-
-  const plannedIssues = [];
-
-  for (let issueNumber = latestExistingIssue + 1; issueNumber <= latestRemoteIssue; issueNumber += 1) {
-    const issue = feedMap.get(issueNumber) ?? archiveMap.get(issueNumber);
-
-    if (!issue) {
-      throw new Error(`Missing This Week in Rust issue ${issueNumber} in both feed and archive.`);
-    }
-
-    plannedIssues.push(issue);
-  }
-
-  return plannedIssues;
+export function planIssuesToImport({ translatedIssueNumbers, feedEntries, archiveEntries }) {
+  return [...mergeIssues(feedEntries, archiveEntries).values()]
+    .filter(({ issueNumber }) => issueNumber >= FIRST_TRANSLATION_ISSUE && !translatedIssueNumbers.has(issueNumber))
+    .sort((left, right) => left.issueNumber - right.issueNumber);
 }
 
 function stripHtmlTags(html) {
@@ -204,21 +176,21 @@ export function buildDescription(issue) {
     : `This Week in Rust ${issue.issueNumber}: the weekly roundup of Rust project updates, calls for participation, and upcoming events.`;
 }
 
-function buildFrontmatter(issue, importMode) {
+function buildFrontmatter(issue) {
   return [
     '---',
     `title: ${escapeYamlString(issue.title)}`,
     `description: ${escapeYamlString(buildDescription(issue))}`,
     `pubDate: ${issueDateFromIso(issue.published)}`,
     `updatedDate: ${issueDateFromIso(issue.updated || issue.published)}`,
-    'draft: false',
+    'draft: true',
     'lang: en',
     `source: ${TWIR_SOURCE_NAME}`,
     `sourceUrl: ${escapeYamlString(issue.link)}`,
     `externalId: ${escapeYamlString(issue.externalId || issue.link)}`,
     `issueNumber: ${issue.issueNumber}`,
     `license: ${escapeYamlString(TWIR_LICENSE)}`,
-    `importMode: ${importMode}`,
+    'importMode: mirror',
     '---',
   ].join('\n');
 }
@@ -234,13 +206,7 @@ export function normalizeImportedHtml(html) {
 }
 
 export function createMirrorPost(issue) {
-  return `${buildFrontmatter(issue, 'mirror')}\n\n${normalizeImportedHtml(issue.contentHtml)}`;
-}
-
-export function createLinkPost(issue) {
-  const summary = normalizeImportedHtml(issue.summaryHtml || '<p>This issue could not be mirrored safely, so this page links to the original release.</p>');
-
-  return `${buildFrontmatter(issue, 'linkpost')}\n\n> Imported from [${issue.title}](${issue.link}). This fallback keeps the issue in the local archive without risking a broken build.\n\n${summary}\n\n[Continue to the original issue →](${issue.link})`;
+  return `${buildFrontmatter(issue)}\n\n${normalizeImportedHtml(issue.contentHtml)}`;
 }
 
 function extractIssueContentFromPage(html) {
@@ -261,31 +227,33 @@ function extractIssueContentFromPage(html) {
     published,
     updated: published,
     contentHtml: articleHtml,
-    summaryHtml: '',
   };
 }
 
-function filenameForIssue(issueNumber) {
-  return `this-week-in-rust-${issueNumber}-en.md`;
-}
-
-async function getExistingIssueNumbers(contentDir) {
+export async function publishedIssueNumbers(contentDir = path.join(repoRoot, 'src/content/blog')) {
   const entries = await readdir(contentDir, { withFileTypes: true });
+  const published = new Set();
+  for (const entry of entries) {
+    const match = entry.name.match(/^this-week-in-rust-(\d+)\.mdx?$/);
+    if (!entry.isFile() || !match) continue;
 
-  return new Set(
-    entries
-      .filter((entry) => entry.isFile())
-      .map((entry) => entry.name.match(/^this-week-in-rust-(\d+)-en\.md$/)?.[1])
-      .filter(Boolean)
-      .map((value) => Number.parseInt(value, 10)),
-  );
+    const markdown = await readFile(path.join(contentDir, entry.name), 'utf8');
+    const frontmatter = markdown.match(/^\uFEFF?---\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/)?.[1];
+    if (frontmatter !== undefined && !/^draft[ \t]*:[ \t]*true[ \t]*(?:#.*)?$/im.test(frontmatter)) {
+      published.add(Number(match[1]));
+    }
+  }
+  return published;
 }
 
 async function fetchText(url) {
   const response = await fetch(url, {
+    signal: AbortSignal.timeout(30_000),
     headers: {
       'user-agent': 'vremyavnikuda-blog-twir-sync/1.0 (+https://this-week-in-rust.org/)'
     },
+  }).catch((error) => {
+    throw new Error(`Failed to fetch ${url}: ${error.cause?.message ?? error.message}`, { cause: error });
   });
 
   if (!response.ok) {
@@ -296,98 +264,73 @@ async function fetchText(url) {
 }
 
 async function hydrateIssue(issue) {
-  if (issue.contentHtml) {
+  if (issue.contentHtml && issue.published) {
     return issue;
   }
 
   const pageHtml = await fetchText(issue.link);
   const pageIssue = extractIssueContentFromPage(pageHtml);
+  if (pageIssue.issueNumber !== issue.issueNumber) {
+    throw new Error(`Expected issue ${issue.issueNumber}, got ${pageIssue.issueNumber}.`);
+  }
 
   return {
     ...issue,
     ...pageIssue,
     link: issue.link,
     externalId: issue.externalId || issue.link,
-    summaryHtml: issue.summaryHtml || pageIssue.summaryHtml,
     updated: issue.updated || pageIssue.updated,
   };
 }
 
-function parseCliArgs(argv) {
-  const args = {
-    dryRun: false,
-    bootstrapCount: 0,
-    contentDir: path.join(repoRoot, 'src/content/blog'),
-  };
-
-  for (const arg of argv) {
-    if (arg === '--dry-run') {
-      args.dryRun = true;
-      continue;
-    }
-
-    if (arg.startsWith('--bootstrap=')) {
-      args.bootstrapCount = Number.parseInt(arg.split('=')[1] ?? '0', 10);
-      continue;
-    }
-
-    if (arg.startsWith('--backfill=')) {
-      args.bootstrapCount = Number.parseInt(arg.split('=')[1] ?? '0', 10);
-    }
+async function fetchIssueSources() {
+  const [feed, archive] = await Promise.allSettled([
+    fetchText(TWIR_FEED_URL).then(parseAtomFeed),
+    fetchText(TWIR_ARCHIVE_URL).then(parseArchiveIssues),
+  ]);
+  for (const source of [feed, archive]) {
+    if (source.status === 'rejected') console.warn(source.reason.message);
   }
-
-  return args;
+  const feedEntries = feed.status === 'fulfilled' ? feed.value : [];
+  const archiveEntries = archive.status === 'fulfilled' ? archive.value : [];
+  if (feedEntries.length === 0 && archiveEntries.length === 0) {
+    throw new Error('No This Week in Rust issues found in the feed or archive.');
+  }
+  return { feedEntries, archiveEntries };
 }
 
-export async function syncTwir({ dryRun = false, bootstrapCount = 0, contentDir = path.join(repoRoot, 'src/content/blog') } = {}) {
-  const existingIssueNumbers = await getExistingIssueNumbers(contentDir);
-  const [feedXml, archiveHtml] = await Promise.all([
-    fetchText(TWIR_FEED_URL),
-    fetchText(TWIR_ARCHIVE_URL),
-  ]);
-
-  const feedEntries = parseAtomFeed(feedXml);
-  const archiveEntries = parseArchiveIssues(archiveHtml);
-  const plannedIssues = planIssuesToImport({ existingIssueNumbers, feedEntries, archiveEntries, bootstrapCount });
-  const hydratedIssues = await Promise.all(plannedIssues.map((issue) => hydrateIssue(issue)));
-
-  if (!dryRun) {
-    await mkdir(contentDir, { recursive: true });
+export async function downloadIssue(issueNumber, inboxDir = path.join(repoRoot, '.cache/twir')) {
+  if (!Number.isSafeInteger(issueNumber) || issueNumber < 1) {
+    throw new Error('Provide a positive This Week in Rust issue number.');
   }
 
-  const results = [];
-
-  for (const issue of hydratedIssues) {
-    const targetPath = path.join(contentDir, filenameForIssue(issue.issueNumber));
-    const sourceFile = issue.contentHtml ? createMirrorPost(issue) : createLinkPost(issue);
-
-    if (!dryRun) {
-      await writeFile(targetPath, sourceFile, 'utf8');
-    }
-
-    results.push({
-      issueNumber: issue.issueNumber,
-      targetPath,
-      mode: issue.contentHtml ? 'mirror' : 'linkpost',
-      discoverySource: issue.discoverySource,
-    });
+  const { feedEntries, archiveEntries } = await fetchIssueSources();
+  const issue = mergeIssues(feedEntries, archiveEntries).get(issueNumber);
+  if (!issue) {
+    throw new Error(`This Week in Rust issue ${issueNumber} was not found.`);
   }
 
-  return results;
+  const hydratedIssue = await hydrateIssue(issue);
+  const filename = path.join(inboxDir, `this-week-in-rust-${issueNumber}-en.md`);
+  await mkdir(inboxDir, { recursive: true });
+  await writeFile(filename, createMirrorPost(hydratedIssue), { encoding: 'utf8', flag: 'wx' });
+  return filename;
 }
 
 async function main() {
-  const args = parseCliArgs(process.argv.slice(2));
-  const results = await syncTwir(args);
-
-  if (results.length === 0) {
-    console.log('No new This Week in Rust issues to import.');
+  const args = process.argv.slice(2);
+  if (args.length === 1 && args[0] === '--list') {
+    const [sources, translatedIssueNumbers] = await Promise.all([fetchIssueSources(), publishedIssueNumbers()]);
+    for (const issue of planIssuesToImport({ ...sources, translatedIssueNumbers })) {
+      console.log(`${issue.issueNumber}\t${issue.link}`);
+    }
     return;
   }
-
-  for (const result of results) {
-    console.log(`${args.dryRun ? 'plan' : 'wrote'} issue ${result.issueNumber} as ${result.mode} via ${result.discoverySource}: ${result.targetPath}`);
+  if (args.length === 2 && args[0] === '--download' && /^\d+$/.test(args[1])) {
+    console.log(await downloadIssue(Number(args[1])));
+    return;
   }
+  throw new Error('Usage: --list or --download <issue-number>');
 }
 
 const isMainModule = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);

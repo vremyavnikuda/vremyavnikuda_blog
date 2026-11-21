@@ -1,9 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import * as twir from '../scripts/twir-sync.mjs';
 
 import {
   buildDescription,
-  createLinkPost,
   createMirrorPost,
   normalizeImportedHtml,
   parseArchiveIssues,
@@ -21,7 +24,7 @@ test('parseAtomFeed extracts issue metadata and decoded HTML content', () => {
       <updated>2026-05-13T00:00:00-04:00</updated>
       <id>tag:this-week-in-rust.org,2026-05-13:/blog/2026/05/13/this-week-in-rust-651/</id>
       <summary type="html">&lt;p&gt;Short summary&lt;/p&gt;</summary>
-      <content type="html">&lt;h2&gt;Updates&lt;/h2&gt;&lt;p&gt;Hello &amp;amp; welcome&lt;/p&gt;</content>
+      <content type="html">&lt;h2&gt;Updates&lt;/h2&gt;&lt;p&gt;Hello &amp;amp; welcome&lt;/p&gt;&lt;code&gt;Vec&amp;lt;T&amp;gt;&lt;/code&gt;</content>
     </entry>
   </feed>`;
 
@@ -31,7 +34,8 @@ test('parseAtomFeed extracts issue metadata and decoded HTML content', () => {
   assert.equal(issue.title, 'This Week in Rust 651');
   assert.equal(issue.link, 'https://this-week-in-rust.org/blog/2026/05/13/this-week-in-rust-651/');
   assert.match(issue.contentHtml, /<h2>Updates<\/h2>/);
-  assert.match(issue.contentHtml, /Hello & welcome/);
+  assert.match(issue.contentHtml, /Hello &amp; welcome/);
+  assert.match(issue.contentHtml, /<code>Vec&lt;T&gt;<\/code>/);
   assert.equal(issue.externalId, 'tag:this-week-in-rust.org,2026-05-13:/blog/2026/05/13/this-week-in-rust-651/');
 });
 
@@ -54,66 +58,68 @@ test('parseArchiveIssues extracts issue links and publication dates', () => {
   assert.equal(issues[1].link, 'https://this-week-in-rust.org/blog/2026/05/13/this-week-in-rust-651/');
 });
 
-test('planIssuesToImport fills feed gaps from archive and keeps chronological order', () => {
+test('planIssuesToImport fills untranslated gaps from the archive and prefers the feed', () => {
   const feedEntries = [
     {
-      issueNumber: 651,
-      title: 'This Week in Rust 651',
-      link: 'https://this-week-in-rust.org/blog/2026/05/13/this-week-in-rust-651/',
-      published: '2026-05-13T00:00:00-04:00',
-      updated: '2026-05-13T00:00:00-04:00',
-      externalId: '651',
-      summaryHtml: '<p>651</p>',
-      contentHtml: '<p>651</p>',
+      issueNumber: 682,
+      title: 'This Week in Rust 682',
+      link: 'https://this-week-in-rust.org/blog/2026/12/16/this-week-in-rust-682/',
+      published: '2026-12-16T00:00:00-05:00',
+      updated: '2026-12-16T00:00:00-05:00',
+      externalId: '682',
+      contentHtml: '<p>682</p>',
     },
   ];
   const archiveEntries = [
     {
-      issueNumber: 650,
-      title: 'This Week in Rust 650',
-      link: 'https://this-week-in-rust.org/blog/2026/05/06/this-week-in-rust-650/',
-      published: '2026-05-06T00:00:00-04:00',
+      issueNumber: 679,
+      title: 'This Week in Rust 679',
+      link: '/blog/2026/11/25/this-week-in-rust-679/',
+      published: '2026-11-25T00:00:00-05:00',
     },
     {
-      issueNumber: 651,
-      title: 'This Week in Rust 651',
-      link: 'https://this-week-in-rust.org/blog/2026/05/13/this-week-in-rust-651/',
-      published: '2026-05-13T00:00:00-04:00',
+      issueNumber: 682,
+      title: 'This Week in Rust 682',
+      link: '/blog/2026/12/16/this-week-in-rust-682/',
+      published: '2026-12-16T00:00:00-05:00',
     },
   ];
 
   const plan = planIssuesToImport({
-    existingIssueNumbers: new Set([649]),
+    translatedIssueNumbers: new Set([678, 680]),
     feedEntries,
     archiveEntries,
-    bootstrapCount: 0,
   });
 
-  assert.deepEqual(plan.map((issue) => issue.issueNumber), [650, 651]);
-  assert.equal(plan[0].discoverySource, 'archive');
-  assert.equal(plan[1].discoverySource, 'feed');
+  assert.deepEqual(plan.map((issue) => issue.issueNumber), [679, 682]);
+  assert.equal(plan[0].link, 'https://this-week-in-rust.org/blog/2026/11/25/this-week-in-rust-679/');
+  assert.equal(plan[1].contentHtml, '<p>682</p>');
 });
 
-test('planIssuesToImport bootstraps the newest issues when there is no local state', () => {
-  const feedEntries = [649, 650, 651].map((issueNumber) => ({
+test('planIssuesToImport skips retired and translated issues', () => {
+  const feedEntries = [649, 669, 678, 679, 680].map((issueNumber) => ({
     issueNumber,
     title: `This Week in Rust ${issueNumber}`,
-    link: `https://this-week-in-rust.org/blog/2026/05/${issueNumber}/this-week-in-rust-${issueNumber}/`,
-    published: `2026-05-${issueNumber}T00:00:00-04:00`,
-    updated: `2026-05-${issueNumber}T00:00:00-04:00`,
-    externalId: `${issueNumber}`,
-    summaryHtml: `<p>${issueNumber}</p>`,
-    contentHtml: `<p>${issueNumber}</p>`,
+    link: `https://this-week-in-rust.org/blog/2026/12/02/this-week-in-rust-${issueNumber}/`,
   }));
 
   const plan = planIssuesToImport({
-    existingIssueNumbers: new Set(),
+    translatedIssueNumbers: new Set([680]),
     feedEntries,
     archiveEntries: [],
-    bootstrapCount: 2,
   });
 
-  assert.deepEqual(plan.map((issue) => issue.issueNumber), [650, 651]);
+  assert.deepEqual(plan.map((issue) => issue.issueNumber), [679]);
+});
+
+test('publishedIssueNumbers excludes Japanese drafts and English originals', async (t) => {
+  const dir = await mkdtemp(path.join(tmpdir(), 'twir-'));
+  t.after(() => rm(dir, { recursive: true, force: true }));
+  await writeFile(path.join(dir, 'this-week-in-rust-679.md'), '---\nlang: ja\ndraft: true # In progress\n---\nText');
+  await writeFile(path.join(dir, 'this-week-in-rust-680.mdx'), '---\nlang: ja\n---\nText');
+  await writeFile(path.join(dir, 'this-week-in-rust-681-en.md'), '---\nlang: en\n---\nText');
+
+  assert.deepEqual(await twir.publishedIssueNumbers(dir), new Set([680]));
 });
 
 test('createMirrorPost renders frontmatter and imported HTML body', () => {
@@ -150,20 +156,27 @@ test('createMirrorPost strips HTML comments from imported content', () => {
   assert.match(post, /<p>Hello<\/p><p>World<\/p>/);
 });
 
-test('createLinkPost falls back to a safe local wrapper around the original issue', () => {
-  const post = createLinkPost({
-    issueNumber: 651,
-    title: 'This Week in Rust 651',
-    link: 'https://this-week-in-rust.org/blog/2026/05/13/this-week-in-rust-651/',
-    externalId: '651',
-    published: '2026-05-13T00:00:00-04:00',
-    updated: '2026-05-13T00:00:00-04:00',
-    summaryHtml: '<p>Short summary</p>',
-  });
+test('downloadIssue saves a complete draft from the archive when the feed is unavailable', async (t) => {
+  const inbox = await mkdtemp(path.join(tmpdir(), 'twir-'));
+  t.after(() => rm(inbox, { recursive: true, force: true }));
+  const articleUrl = 'https://this-week-in-rust.org/blog/2026/11/25/this-week-in-rust-679/';
+  const pages = new Map([
+    ['https://this-week-in-rust.org/blog/archives/index.html', `
+      <time datetime="2026-11-25">25 NOV 2026</time><a href="${articleUrl}">This Week in Rust 679</a>`],
+    [articleUrl, `<title>This Week in Rust 679 · This Week in Rust</title>
+      <time datetime="2026-11-25"></time><article class="post-content"><p>The full issue.</p></article>`],
+  ]);
+  t.mock.method(globalThis, 'fetch', async (url) => new Response(pages.get(url), { status: pages.has(url) ? 200 : 503 }));
 
-  assert.match(post, /importMode: linkpost/);
-  assert.match(post, /Imported from \[This Week in Rust 651\]/);
-  assert.match(post, /Continue to the original issue/);
+  const filename = await twir.downloadIssue(679, inbox);
+  assert.equal(filename, path.join(inbox, 'this-week-in-rust-679-en.md'));
+  const markdown = await readFile(filename, 'utf8');
+  assert.match(markdown, /^draft: true$/m);
+  assert.match(markdown, /^lang: en$/m);
+  assert.ok(markdown.includes(`sourceUrl: "${articleUrl}"`));
+  assert.match(markdown, /<p>The full issue\.<\/p>/);
+  await assert.rejects(twir.downloadIssue(679, inbox), { code: 'EEXIST' });
+  assert.equal(await readFile(filename, 'utf8'), markdown);
 });
 
 const crateSection = (blurb) =>

@@ -56,7 +56,7 @@ $$
 
 ### 全体フロー（機微な実装詳細は省略）
 
-![Pipeline diagram (Japanese)](/img/prototype-8c2/ja/pipeline-ja.svg)
+![処理の流れ](/img/prototype-8c2/ja/pipeline-ja.svg)
 
 | 要素 | 役割 |
 | --- | --- |
@@ -76,7 +76,7 @@ p(v) \propto
 \bigl(\varepsilon + \text{break}(v) + \text{novelty}(v)\bigr)^{-c_b}
 $$
 
-![Make/Break scoring diagram (Japanese)](/img/prototype-8c2/ja/make-break-scoring-ja.svg)
+![Make/Break スコアリングの流れ](/img/prototype-8c2/ja/make-break-scoring-ja.svg)
 
 `make(v)` はフリップ後に SAT になる句数、`break(v)` は UNSAT へ落ちる句数です。`novelty(v)` は直近で使った変数への抑制です。`α`（`make_weight`）は make 報酬の強さ、`c_b`（`cb`）は break 罰則の形を調整します。`ε` は数値安定化のための小定数です。
 
@@ -109,7 +109,7 @@ w_i^t + \eta_t \bigl(g_t - \lambda (w_i^t - 1)\bigr)
 \right)
 $$
 
-![Primal-Dual update diagram (Japanese)](/img/prototype-8c2/ja/primal-dual-update-ja.svg)
+![主双対法による重み更新の流れ](/img/prototype-8c2/ja/primal-dual-update-ja.svg)
 
 $\eta_t$ は減衰ステップ幅、$g_t$ は競合シグナル、$\lambda$ は重みを 1.0 付近へ戻す正則化です。$\Pi_{[w_{\min}, w_{\max}]}$ は重みの範囲制約です。
 

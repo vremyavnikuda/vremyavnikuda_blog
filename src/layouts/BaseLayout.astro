@@ -1,7 +1,7 @@
 ---
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { t } from '../i18n/ui';
 import '../styles/global.css';
 
 interface Props {
@@ -14,9 +14,6 @@ interface Props {
   publishedTime?: Date;
   modifiedTime?: Date;
 }
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
 
 const {
   title = t('site.title'),
@@ -39,7 +36,7 @@ const ogImage = new URL('/og.png', Astro.site);
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -55,11 +52,11 @@ const ogImage = new URL('/og.png', Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content="vremyavnikuda" />
-    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'ja_JP'} />
+    <meta property="og:locale" content="ja_JP" />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="vremyavnikuda - systems software, rust, linux" />
+    <meta property="og:image:alt" content="vremyavnikuda — システムソフトウェア、Rust、Linux" />
     {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
     {modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
 
@@ -73,7 +70,7 @@ const ogImage = new URL('/og.png', Astro.site);
       rel="alternate"
       type="application/rss+xml"
       title={t('site.title')}
-      href={lang === 'en' ? '/en/rss.xml' : '/rss.xml'}
+      href="/rss.xml"
     />
   </head>
   <body>
@@ -81,7 +78,7 @@ const ogImage = new URL('/og.png', Astro.site);
       href="#main"
       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-60 focus:rounded-lg focus:bg-primary-400 focus:px-4 focus:py-2 focus:text-slate-950"
     >
-      {lang === 'en' ? 'Skip to content' : 'コンテンツへスキップ'}
+      コンテンツへスキップ
     </a>
     {!noHeader && <Header />}
     <main id="main" class="min-h-screen">

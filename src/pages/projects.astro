@@ -1,15 +1,11 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { t } from '../i18n/ui';
 import ProjectsRoadmapVisualization from '@components/ProjectsRoadmapVisualization';
-import { buildProjectRoadmapNodes, getProjectsEntriesForLang } from '../lib/projectsData';
+import { buildProjectRoadmapNodes, sortProjectsForRoadmap } from '../lib/projectsData';
 
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-
-const projects = buildProjectRoadmapNodes(getProjectsEntriesForLang(await getCollection('projects'), lang));
-const detailsUrl = `/projects-data/${lang}.json`;
+const projects = buildProjectRoadmapNodes(sortProjectsForRoadmap(await getCollection('projects')));
 ---
 
 <BaseLayout title={`${t('projects.title')} - vremyavnikuda`} description={t('projects.description')}>
@@ -18,7 +14,7 @@ const detailsUrl = `/projects-data/${lang}.json`;
     {projects.length === 0 ? (
       <p class="text-(--color-text-secondary)">{t('projects.noProjects')}</p>
     ) : (
-      <ProjectsRoadmapVisualization projects={projects} detailsUrl={detailsUrl} lang={lang} client:load />
+      <ProjectsRoadmapVisualization projects={projects} detailsUrl="/projects-data/ja.json" client:load />
     )}
   </div>
 </BaseLayout>

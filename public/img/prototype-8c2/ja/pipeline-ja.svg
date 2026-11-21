@@ -1,6 +1,6 @@
 <svg viewBox="0 0 980 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Pipeline: prototype algorithm 8C2</title>
-  <desc id="desc">stochastic local search の1ステップ（make/break scoring と primal-dual 重み更新）</desc>
+  <title id="title">試作アルゴリズム 8C2 の処理フロー</title>
+  <desc id="desc">確率的局所探索の1ステップ（スコア計算と主双対法による重み更新）</desc>
   <defs>
     <marker id="arrow-solid" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
       <polygon points="0 0, 8 4, 0 8" fill="#22d3ee" />
@@ -25,26 +25,26 @@
 
   <rect class="box-accent" x="350" y="24" width="280" height="64" rx="10" />
   <text class="txt" x="490" y="50" text-anchor="middle">UNSAT句の選択</text>
-  <text class="caption" x="490" y="70" text-anchor="middle">dense-gated clause selection</text>
+  <text class="caption" x="490" y="70" text-anchor="middle">密度に応じた句の選択</text>
 
   <rect class="box" x="350" y="132" width="280" height="64" rx="10" />
   <text class="txt" x="490" y="158" text-anchor="middle">候補 v の評価</text>
   <text class="caption" x="490" y="178" text-anchor="middle">make / break / novelty</text>
 
   <rect class="box-warm" x="40" y="242" width="280" height="76" rx="10" />
-  <text class="txt" x="180" y="270" text-anchor="middle">Zero-break 分岐</text>
+  <text class="txt" x="180" y="270" text-anchor="middle">break 値がゼロの場合</text>
   <text class="caption" x="180" y="292" text-anchor="middle">break(v)=0 の場合はランダム選択</text>
 
   <rect class="box" x="350" y="242" width="280" height="76" rx="10" />
   <text class="txt" x="490" y="270" text-anchor="middle">確率的選択</text>
-  <text class="caption" x="490" y="292" text-anchor="middle">p(v) は scoring に比例</text>
+  <text class="caption" x="490" y="292" text-anchor="middle">p(v) はスコアに比例</text>
 
   <rect class="box-accent" x="660" y="242" width="280" height="76" rx="10" />
   <text class="txt" x="800" y="270" text-anchor="middle">変数のフリップ</text>
   <text class="caption" x="800" y="292" text-anchor="middle">式の状態を更新</text>
 
   <rect class="box" x="660" y="364" width="280" height="84" rx="10" />
-  <text class="txt" x="800" y="392" text-anchor="middle">Primal-dual 更新</text>
+  <text class="txt" x="800" y="392" text-anchor="middle">主双対法による更新</text>
   <text class="formula" x="800" y="412" text-anchor="middle">grad = g_t - lambda*(w - 1)</text>
   <text class="formula" x="800" y="427" text-anchor="middle">w_next = clip(w + eta_t*grad)</text>
   <text class="formula" x="800" y="442" text-anchor="middle">eta_t = eta / sqrt(t+1)</text>
@@ -66,6 +66,6 @@
   <circle cx="940" cy="406" r="3" fill="#94a3b8" />
   <text class="caption" x="335" y="232" text-anchor="middle">break(v)=0 の場合</text>
   <rect x="696" y="38" width="228" height="40" fill="#020617" opacity="0.95" />
-  <text class="caption" x="810" y="54" text-anchor="middle">clause 重みの feedback</text>
-  <text class="caption" x="810" y="68" text-anchor="middle">primal-dual から clause 選択へ</text>
+  <text class="caption" x="810" y="54" text-anchor="middle">句の重みをフィードバック</text>
+  <text class="caption" x="810" y="68" text-anchor="middle">主双対更新から句の選択へ</text>
 </svg>

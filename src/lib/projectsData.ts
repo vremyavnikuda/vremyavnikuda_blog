@@ -2,17 +2,9 @@ import type { CollectionEntry } from 'astro:content';
 import type { ProjectInspectorProject, ProjectRoadmapNodeData } from '../components/projects/types';
 
 type ProjectEntry = CollectionEntry<'projects'>;
-type ProjectsLang = 'ja' | 'en';
 
-const sortProjectsForRoadmap = (entries: ProjectEntry[]): ProjectEntry[] => {
+export const sortProjectsForRoadmap = (entries: ProjectEntry[]): ProjectEntry[] => {
   return [...entries].sort((left, right) => Number(right.data.featured) - Number(left.data.featured));
-};
-
-export const getProjectsEntriesForLang = (
-  entries: ProjectEntry[],
-  lang: ProjectsLang,
-): ProjectEntry[] => {
-  return sortProjectsForRoadmap(entries.filter((entry) => entry.data.lang === lang));
 };
 
 export const serializeProjectRoadmapNode = (entry: ProjectEntry): ProjectRoadmapNodeData => {

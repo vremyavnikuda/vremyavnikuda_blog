@@ -1,65 +1,51 @@
-name: Sync This Week in Rust
+name: Queue This Week in Rust translations
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '17 */6 * * *'
   workflow_dispatch:
-    inputs:
-      bootstrap_count:
-        description: 'Bootstrap newest TWIR issues when no local TWIR posts exist'
-        required: false
-        default: '0'
+
+concurrency:
+  group: twir-translation-queue
+  cancel-in-progress: false
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+  issues: write
 
 jobs:
-  sync:
+  queue:
     runs-on: ubuntu-latest
+    if: github.ref_name == github.event.repository.default_branch
+    timeout-minutes: 5
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '24'
-          cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Sync This Week in Rust posts
+      - name: Create tasks for untranslated issues
+        shell: bash
         env:
-          BOOTSTRAP_COUNT: ${{ github.event.inputs.bootstrap_count || '0' }}
+          GH_TOKEN: ${{ github.token }}
         run: |
-          if [ "$BOOTSTRAP_COUNT" != "0" ]; then
-            npm run twir:sync -- --bootstrap="$BOOTSTRAP_COUNT"
-          else
-            npm run twir:sync
-          fi
+          pending=$(node scripts/twir-sync.mjs --list)
+          [[ -n "$pending" ]] || exit 0
 
-      - name: Run tests
-        run: npm test
+          queued=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues?state=all&per_page=100" \
+            --jq '.[] | select(.pull_request == null) | (.body // "") | capture("<!-- twir-translation:(?<edition>[0-9]+) -->").edition')
 
-      - name: Run Astro checks
-        run: npm run check
+          while IFS=$'\t' read -r issue url; do
+            if grep -Fxq -- "$issue" <<< "$queued"; then
+              continue
+            fi
 
-      - name: Run build
-        run: npm run build
-
-      - name: Create pull request
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.VREMYAVNIKUDABLOG }}
-          commit-message: 'chore: sync This Week in Rust posts'
-          branch: 'automation/twir-sync'
-          delete-branch: true
-          title: 'chore: sync This Week in Rust posts'
-          body: |
-            ## Summary
-            - sync newly published This Week in Rust issues into the local Astro content collection
-            - keep imported posts rendered through the existing `/en/blog` layout
-            - validate the sync with tests, Astro checks, and a full build
+            printf 'Оригинал: <%s>\n\nСкачать Markdown: \x60npm run twir:download -- %s\x60\n\n<!-- twir-translation:%s -->\n' "$url" "$issue" "$issue" \
+              | gh issue create --repo "$GITHUB_REPOSITORY" \
+                  --assignee "$GITHUB_REPOSITORY_OWNER" \
+                  --title "Перевести This Week in Rust №$issue" --body-file -
+          done <<< "$pending"

@@ -10,7 +10,7 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     draft: z.boolean().default(false),
-    lang: z.enum(['ja', 'en']).default('ja'),
+    lang: z.literal('ja').default('ja'),
     source: z.enum(['local', 'twir']).default('local'),
     sourceUrl: z.url().optional(),
     externalId: z.string().optional(),
@@ -29,7 +29,7 @@ const projects = defineCollection({
     github: z.url().optional(),
     image: z.string().optional(),
     featured: z.boolean().default(false),
-    lang: z.enum(['ja', 'en']).default('ja'),
+    lang: z.literal('ja').default('ja'),
     // Project type and hierarchy
     projectType: z.enum(['category', 'project', 'contribution']).default('project'),
     category: z.enum(['projects', 'contributing']).optional(),
@@ -56,7 +56,7 @@ const achievements = defineCollection({
     organization: z.string(),
     image: image(), // Optimized local image asset
     verificationUrl: z.url().optional(),
-    lang: z.enum(['ja', 'en']).default('ja'),
+    lang: z.literal('ja').default('ja'),
   }),
 });
 

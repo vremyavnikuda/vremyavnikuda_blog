@@ -5,12 +5,10 @@ import {
   sortRoadmapByVersionDesc,
   type ProjectStatusValue,
 } from '../lib/projectsNavigator';
-import { getProjectsNavigatorCopy, type NavigatorLang } from '../lib/projectsNavigatorI18n';
 
 interface Props {
   projects: ProjectRoadmapNodeData[];
   detailsUrl: string;
-  lang?: NavigatorLang;
 }
 
 interface SelectedVersion {
@@ -90,21 +88,23 @@ const statusBadgeClass: Record<string, string> = {
   archived: 'border-slate-500/40 bg-slate-500/15 text-slate-300',
 };
 
+const statusLabels: Record<ProjectStatusValue, string> = {
+  active: '稼働中',
+  maintenance: '保守',
+  completed: '完了',
+  archived: 'アーカイブ',
+};
+
 const versionColor = (status: ReleaseStatus): string => {
   if (status === 'release') return '#22c55e';
   if (status === 'close') return '#ef4444';
   return '#f59e0b';
 };
 
-const versionLabel = (status: ReleaseStatus, lang: NavigatorLang): string => {
-  if (lang === 'ja') {
-    if (status === 'release') return 'リリース';
-    if (status === 'close') return 'クローズ';
-    return '開発中';
-  }
-  if (status === 'release') return 'Release';
-  if (status === 'close') return 'Close';
-  return 'Dev';
+const versionLabel = (status: ReleaseStatus): string => {
+  if (status === 'release') return 'リリース';
+  if (status === 'close') return 'クローズ';
+  return '開発中';
 };
 
 const statusToKnown = (status: string): ProjectStatusValue => {
@@ -160,9 +160,7 @@ const sortTree = (nodes: RoadmapTreeNode[], rootLevel = false): void => {
   }
 };
 
-export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lang = 'en' }: Props) {
-  const t = getProjectsNavigatorCopy(lang);
-
+export default function ProjectsRoadmapVisualization({ projects, detailsUrl }: Props) {
   const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null);
   const [selectedVersion, setSelectedVersion] = useState<SelectedVersion | null>(null);
   const [inspectorOpen, setInspectorOpen] = useState(false);
@@ -471,7 +469,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
     <div className="grid grid-cols-12 gap-4">
       {roots.length === 0 ? (
         <div className="col-span-12 rounded-2xl border border-cyan-300/20 bg-white/3 p-8 text-center">
-          <p className="text-sm text-(--color-text-secondary)">{t.noNodesMatch}</p>
+          <p className="text-sm text-(--color-text-secondary)">現在のフィルターに一致するノードがありません。フィルターをリセットしてください。</p>
         </div>
       ) : (
         <div className="col-span-12 grid grid-cols-12 gap-4">
@@ -502,6 +500,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
                   {hasNode('contributing') &&
                     renderDiagramNode({
                       title: 'contributing',
+                      label: 'オープンソースへの貢献',
                       variant: 'contribution',
                       left: 400,
                       top: 20,
@@ -577,6 +576,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
                   {hasNode('projects') &&
                     renderDiagramNode({
                       title: 'projects',
+                      label: 'プロジェクト',
                       variant: 'contribution',
                       left: 160,
                       top: 550,
@@ -600,7 +600,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
                   {hasNode('Personal Blog') && (
                     <>
                       {renderDiagramLine(250, 670, { width: 70 })}
-                      {renderDiagramNode({ title: 'Personal Blog', variant: 'project', left: 320, top: 650, width: 140, height: 46 })}
+                      {renderDiagramNode({ title: 'Personal Blog', label: '個人ブログ', variant: 'project', left: 320, top: 650, width: 140, height: 46 })}
                     </>
                   )}
 
@@ -694,23 +694,19 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
             <section className="rounded-2xl border border-cyan-300/20 bg-white/3 p-4">
               {!selectedProjectTitle && (
                 <p className="text-sm text-(--color-text-secondary)">
-                  {lang === 'ja'
-                    ? 'ノードを選択すると、ここに詳細が表示されます。'
-                    : 'Select a node to inspect details.'}
+                  ノードを選択すると、ここに詳細が表示されます。
                 </p>
               )}
 
               {selectedProjectTitle && detailsState === 'loading' && !selectedProject && (
                 <p className="text-sm text-(--color-text-secondary)">
-                  {lang === 'ja' ? 'プロジェクト情報を読み込み中...' : 'Loading project details...'}
+                  プロジェクト情報を読み込み中...
                 </p>
               )}
 
               {selectedProjectTitle && detailsState === 'error' && !selectedProject && (
                 <p className="text-sm text-rose-300">
-                  {lang === 'ja'
-                    ? 'プロジェクト情報の読み込みに失敗しました。'
-                    : 'Failed to load project details.'}
+                  プロジェクト情報の読み込みに失敗しました。
                 </p>
               )}
 
@@ -723,7 +719,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
                         statusBadgeClass[statusToKnown(selectedProject.status)]
                       }`}
                     >
-                      {t.statusOptions[statusToKnown(selectedProject.status)]}
+                      {statusLabels[statusToKnown(selectedProject.status)]}
                     </span>
                     {selectedProject.version && (
                       <span className="rounded-full border border-cyan-300/30 px-2 py-0.5 text-xs text-cyan-200">
@@ -753,7 +749,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
                         rel="noopener noreferrer"
                         className="text-primary-300 hover:underline"
                       >
-                        {lang === 'ja' ? 'リンク' : 'Visit'}
+                        リンク
                       </a>
                     )}
                   </div>
@@ -764,7 +760,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
             {selectedProject?.roadmap && selectedProject.roadmap.length > 0 && (
               <section className="rounded-2xl border border-cyan-300/20 bg-white/3 p-4">
                 <h4 className="mb-3 text-sm font-semibold text-primary-300">
-                  {lang === 'ja' ? 'バージョン履歴' : 'Version Timeline'}
+                  バージョン履歴
                 </h4>
                 <div className="space-y-2">
                   {sortRoadmapByVersionDesc(selectedProject.roadmap).map((entry) => {
@@ -805,7 +801,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
                                 </a>
                               )}
                               <span className="text-xs" style={{ color: versionColor(entry.releaseStatus) }}>
-                                {versionLabel(entry.releaseStatus, lang)}
+                                {versionLabel(entry.releaseStatus)}
                               </span>
                             </div>
                           </div>
@@ -821,9 +817,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
                               </ul>
                             ) : (
                               <p className="text-sm text-(--color-text-secondary)">
-                                {lang === 'ja'
-                                  ? 'このバージョンの詳細項目はありません。'
-                                  : 'No detailed items for this version.'}
+                                このバージョンの詳細項目はありません。
                               </p>
                             )}
                           </div>
@@ -838,7 +832,7 @@ export default function ProjectsRoadmapVisualization({ projects, detailsUrl, lan
             {relatedProjects && relatedProjects.length > 0 && (
               <section className="rounded-2xl border border-cyan-300/20 bg-white/3 p-4">
                 <h4 className="mb-2 text-sm font-semibold text-primary-300">
-                  {lang === 'ja' ? '関連プロジェクト' : 'Related Projects'}
+                  関連プロジェクト
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {relatedProjects.map((entry) => (
